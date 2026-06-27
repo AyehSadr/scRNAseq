@@ -1,0 +1,14 @@
+# Manifest for cellranger multi config — Patient 2 (SRAML10) OCM pool.
+# OB mapping confirmed by ICR Genomics email 2026-05-06.
+# Tabs separate fields. Edit `fastq_prefix` and `fastq_dir` once you've
+# downloaded the run1930 data and know the actual per-pool prefix.
+pool_id	SRAML10
+ref	/shared/scratch/SCWF00196/c.medas36/refs/refdata-gex-GRCh38-2024-A
+chemistry	SC3Pv4-OCM
+fastq_prefix	S34_02
+fastq_dir	/shared/scratch/SCWF00196/c.medas36/fastqs/run1930/SRAML10_pool
+create_bam	true
+SRAML10_11	OB1	Patient2_tube11
+SRAML10_12	OB2	Patient2_tube12
+SRAML10_15	OB3	Patient2_tube15
+SRAML10_16	OB4	Patient2_tube16

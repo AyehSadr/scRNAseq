@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AML CloneTracker XP (ICR S34) — Bioinformatics Report</title>
+<style>
+  :root{
+    --navy:#1f3a5f;
+    --navy-dark:#142a48;
+    --teal:#2a8f8a;
+    --green:#3d8b3d;
+    --purple:#6b4c93;
+    --orange:#c87533;
+    --red:#b53a3a;
+    --slate:#4a5568;
+    --paper:#fafaf7;
+    --line:#d8d4cb;
+    --soft:#f1ede2;
+    --ok:#3d8b3d;
+    --warn:#c87533;
+    --danger:#b53a3a;
+  }
+  html,body{background:var(--paper);color:#222;font-family:"Palatino Linotype","Palatino","Book Antiqua",Palatino,serif;font-size:16px;line-height:1.55;margin:0;padding:0;}
+  .wrap{max-width:980px;margin:0 auto;padding:48px 56px 96px;}
+  header.top{border-bottom:3px solid var(--navy);padding-bottom:18px;margin-bottom:32px;}
+  header.top .eyebrow{font-family:Georgia,serif;font-size:13px;letter-spacing:.16em;color:var(--slate);text-transform:uppercase;}
+  header.top h1{font-family:Georgia,serif;color:var(--navy-dark);font-size:30px;margin:6px 0 4px;line-height:1.2;}
+  header.top .sub{color:var(--slate);font-size:15px;font-style:italic;}
+  header.top .meta{margin-top:14px;font-size:13.5px;color:var(--slate);}
+  header.top .meta b{color:#222;font-style:normal;}
+  h2{font-family:Georgia,serif;color:var(--navy-dark);border-left:6px solid var(--navy);padding:6px 0 6px 14px;margin:46px 0 14px;font-size:22px;}
+  h3{font-family:Georgia,serif;color:var(--navy);margin:30px 0 10px;font-size:17.5px;}
+  h4{font-family:Georgia,serif;color:var(--purple);margin:22px 0 6px;font-size:15.5px;}
+  p{margin:0 0 12px;}
+  a{color:var(--teal);text-decoration:none;border-bottom:1px dotted var(--teal);}
+  a:hover{color:var(--navy-dark);border-bottom-style:solid;}
+  code{font-family:"Consolas","Menlo",monospace;font-size:13.5px;background:#eee9d8;padding:1px 5px;border-radius:3px;color:#333;}
+  pre{font-family:"Consolas","Menlo",monospace;font-size:13px;background:#f4efdf;color:#222;padding:12px 14px;border-radius:4px;border-left:4px solid var(--teal);overflow-x:auto;line-height:1.45;}
+  table{border-collapse:collapse;width:100%;margin:10px 0 18px;font-size:14px;background:#fff;}
+  th{background:var(--navy);color:#fff;text-align:left;padding:7px 10px;font-family:Georgia,serif;font-weight:bold;font-size:13.5px;}
+  td{padding:6px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#faf6e9;}
+  .panel{background:#fff;border:1px solid var(--line);border-left:6px solid var(--teal);padding:14px 18px;margin:14px 0;border-radius:0 4px 4px 0;}
+  .panel.methods{border-left-color:var(--purple);background:#f6f1f8;}
+  .panel.methods h4{color:var(--purple);margin-top:0;}
+  .panel.warn{border-left-color:var(--orange);background:#fbf2e6;}
+  .panel.warn h4{color:var(--orange);margin-top:0;}
+  .panel.danger{border-left-color:var(--danger);background:#fbeeec;}
+  .panel.danger h4{color:var(--danger);margin-top:0;}
+  .panel.note{border-left-color:var(--green);background:#eef6ee;}
+  .panel.note h4{color:var(--green);margin-top:0;}
+  ul,ol{margin:6px 0 14px 22px;}
+  li{margin:4px 0;}
+  .toc{background:#fff;border:1px solid var(--line);padding:18px 26px;border-radius:4px;}
+  .toc h3{margin-top:0;color:var(--navy-dark);border:none;padding:0;}
+  .toc ol{font-size:14.5px;column-count:2;column-gap:30px;}
+  .toc a{border:none;color:var(--navy);}
+  .toc a:hover{color:var(--teal);}
+  .figref{display:inline-block;background:var(--soft);color:var(--navy-dark);padding:1px 7px;border-radius:3px;font-size:13px;border:1px solid var(--line);margin:0 2px;}
+  .figref a{color:var(--navy-dark);border:none;}
+  .smallcaps{font-variant:small-caps;letter-spacing:.04em;color:var(--slate);}
+  .badge{display:inline-block;padding:1px 8px;border-radius:10px;font-size:12px;font-family:Georgia,serif;letter-spacing:.03em;margin-left:6px;vertical-align:1px;}
+  .b-ok{background:#e0eede;color:#2b5e2b;border:1px solid #b4d3b4;}
+  .b-warn{background:#fbe8d2;color:#7a4a16;border:1px solid #e7c799;}
+  .b-info{background:#dde7f0;color:#1f3a5f;border:1px solid #b9c8d8;}
+  .b-danger{background:#f6dad6;color:#7a221d;border:1px solid #d99b95;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:10px 0;}
+  .stat{background:#fff;border:1px solid var(--line);border-top:4px solid var(--navy);padding:12px 14px;border-radius:0 0 4px 4px;}
+  .stat .num{font-family:Georgia,serif;color:var(--navy-dark);font-size:22px;font-weight:bold;}
+  .stat .lab{color:var(--slate);font-size:13px;text-transform:uppercase;letter-spacing:.08em;}
+  hr.thin{border:none;border-top:1px solid var(--line);margin:24px 0;}
+  footer{margin-top:60px;border-top:2px solid var(--navy);padding-top:14px;color:var(--slate);font-size:13px;font-style:italic;}
+  .pull{font-family:Georgia,serif;color:var(--navy-dark);font-size:18px;border-left:4px solid var(--purple);padding:6px 16px;margin:18px 0;color:var(--purple);background:#f6f1f8;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="eyebrow">ICR Project S34 &middot; Cardiff University &middot; AML CloneTracker XP</div>
+  <h1>Single-cell dissection of niche- and chemotherapy-driven cell-state remodelling in AML</h1>
+  <div class="sub">End-to-end bioinformatics report for manuscript drafting</div>
+  <div class="meta">
+    <b>Analyst:</b> Ayeh Sadr (ICR) &nbsp;&middot;&nbsp;
+    <b>Project leads:</b> Alex Tonks (Cardiff), Jamshid Khorashad (RMS) &nbsp;&middot;&nbsp;
+    <b>Wet lab:</b> Sian Rizzo &nbsp;&middot;&nbsp;
+    <b>Date of report:</b> 2026-05-27
+  </div>
+</header>
+
+<div class="panel note">
+  <h4>How to read this document</h4>
+  <p>The report walks through the bioinformatics pipeline in the order it was actually run, from raw fastq to the final cell&ndash;cell communication analysis. Each section gives the biological motivation and the headline result first (the prose you can lift into the manuscript), followed by a purple <span class="smallcaps">methods detail</span> box that captures the parameters, software versions and design choices. Figures and tables sit in the project tree at <code>outputs/seurat/&hellip;</code> and are linked inline where appropriate. Cohort and statistical caveats are flagged in orange and red boxes so they cannot be missed when paragraphs are reused for a paper.</p>
+</div>
+
+<div class="toc">
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#s1">Background and aims</a></li>
+    <li><a href="#s2">Experimental design</a></li>
+    <li><a href="#s3">Library chemistry &amp; alignment</a></li>
+    <li><a href="#s4">QC and pre-processing</a></li>
+    <li><a href="#s5">Clustering &amp; first-pass annotation</a></li>
+    <li><a href="#s6">Reference-based annotation (van Galen 2019, signatures)</a></li>
+    <li><a href="#s7">Malignancy assignment (inferCNV)</a></li>
+    <li><a href="#s8">Final annotation &amp; AML compartment</a></li>
+    <li><a href="#s9">Stress &amp; cell-cycle landscape</a></li>
+    <li><a href="#s10">Differential expression within patient</a></li>
+    <li><a href="#s11">Pathway analysis &mdash; AraC and stromal niche</a></li>
+    <li><a href="#s12">Trajectory inference (Slingshot)</a></li>
+    <li><a href="#s13">Cell&ndash;cell communication (LIANA + NicheNet)</a></li>
+    <li><a href="#s14">CloneTracker XP lineage barcoding</a></li>
+    <li><a href="#s15">Limitations &amp; cohort gaps</a></li>
+    <li><a href="#s16">Data &amp; code availability</a></li>
+    <li><a href="#s17">References</a></li>
+  </ol>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s1">1. Background and aims</h2>
+
+<p>Acute myeloid leukaemia (AML) responds to cytarabine (Ara-C) consolidation but relapses from a minority of cells that survive chemotherapy. The bone-marrow microenvironment is a leading candidate for the niche in which residual disease persists, and HS-5 stromal co-culture is the standard <em>in&nbsp;vitro</em> surrogate for that compartment. The S34 study was designed to ask, at single-cell resolution and within a defined clonal framework, two coupled questions:</p>
+
+<ol>
+  <li><b>Does HS-5 co-culture remodel the AML transcriptional landscape</b>, and if so, do the cells that emerge under co-culture occupy the same or different states than untreated leukaemia in conventional medium?</li>
+  <li><b>When Ara-C is added on top of HS-5</b>, do the residual AML cells represent stochastic survival of pre-existing clones, or active conversion of cells into a niche-protected, quiescent state &mdash; and what HS-5-derived signals drive that conversion?</li>
+</ol>
+
+<p>Each well of cells was tagged before plating with a Cellecta CloneTracker XP lentiviral barcode library, so that, in principle, the same clone can be tracked across all four conditions of a given patient. The barcode recovery and what we can and cannot conclude from it are discussed in <a href="#s14">&sect;14</a>.</p>
+
+<!-- ============================================================ -->
+<h2 id="s2">2. Experimental design</h2>
+
+<p>Three primary AML samples (designated SRAML7, SRAML10 and SRAML13) were each split across four conditions in a 2&times;2 factorial: HS-5 stromal co-culture (yes / no) crossed with cytarabine (yes / no), giving twelve fixed-cell scRNA-seq libraries in total. All twelve carried the CloneTracker XP barcode pool.</p>
+
+<table>
+  <thead><tr><th>Tube</th><th>Patient</th><th>HS-5</th><th>AraC</th><th>Cells (&times;10<sup>4</sup>)</th><th>Condition</th></tr></thead>
+  <tbody>
+    <tr><td>3</td><td>SRAML7</td><td>&minus;</td><td>&minus;</td><td>56</td><td>Untreated, conventional</td></tr>
+    <tr><td>4</td><td>SRAML7</td><td>&minus;</td><td>+</td><td>38</td><td>AraC, conventional</td></tr>
+    <tr><td>7</td><td>SRAML7</td><td>+</td><td>&minus;</td><td>14</td><td>Untreated, co-culture</td></tr>
+    <tr><td>8</td><td>SRAML7</td><td>+</td><td>+</td><td>14</td><td>AraC, co-culture</td></tr>
+    <tr><td>11</td><td>SRAML10</td><td>&minus;</td><td>&minus;</td><td>28</td><td>Untreated, conventional</td></tr>
+    <tr><td>12</td><td>SRAML10</td><td>&minus;</td><td>+</td><td>17</td><td>AraC, conventional</td></tr>
+    <tr><td>15</td><td>SRAML10</td><td>+</td><td>&minus;</td><td>7.5*</td><td>Untreated, co-culture (low input)</td></tr>
+    <tr><td>16</td><td>SRAML10</td><td>+</td><td>+</td><td>6.75*</td><td>AraC, co-culture (low input)</td></tr>
+    <tr><td>17</td><td>SRAML13</td><td>&minus;</td><td>&minus;</td><td>81</td><td>Untreated, conventional</td></tr>
+    <tr><td>18</td><td>SRAML13</td><td>&minus;</td><td>+</td><td>40</td><td>AraC, conventional</td></tr>
+    <tr><td>19</td><td>SRAML13</td><td>+</td><td>&minus;</td><td>52.5</td><td>Untreated, co-culture</td></tr>
+    <tr><td>20</td><td>SRAML13</td><td>+</td><td>+</td><td>18.2</td><td>AraC, co-culture</td></tr>
+  </tbody>
+</table>
+<p style="font-size:13px;color:var(--slate);">*Tubes 15 and 16 are flagged as low input throughout. The QC gate on minimum genes per cell is relaxed for these libraries as described in <a href="#s4">&sect;4</a>.</p>
+
+<div class="panel warn">
+  <h4>Scope of the analyses reported here</h4>
+  <p>The complete bioinformatics pipeline (alignment through cell&ndash;cell communication) has been executed end-to-end for <b>Patient&nbsp;2 (SRAML10, tubes 11/12/15/16)</b>. The same scripts, conda environments and SLURM templates are in place for SRAML7 and SRAML13 and the Cell Ranger <code>multi</code> configuration files for those pools have been generated; downstream Seurat objects for those two patients have not yet been built. All headline numbers, tables and figures in this report therefore describe SRAML10 unless stated otherwise. Statements that are expected to extend to the other two patients are flagged as <em>hypotheses to test on the full cohort</em>.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s3">3. Library chemistry &amp; alignment</h2>
+
+<p>Libraries were prepared using 10x Genomics <b>GEM-X Universal 3&prime; with On-Chip Multiplexing (OCM)</b>: four samples share an Illumina index and are demultiplexed in silico by bead barcode (OB1&ndash;OB4) within Cell Ranger. The Patient&nbsp;2 pool mapping was confirmed by ICR Genomics as 11&rarr;OB1, 12&rarr;OB2, 15&rarr;OB3, 16&rarr;OB4. Reads are 28&nbsp;bp R1 (16&nbsp;bp cell barcode + 12&nbsp;bp UMI, 3&prime; v4) and 90&nbsp;bp R2.</p>
+
+<p>A pre-alignment <a href="outputs/SRAML10_pool_QC_summary.md">MultiQC of the SRAML10 pool</a> showed all standard 10x patterns (R1 fail on per-base content from the barcode structure; R2 duplication warn from UMI saturation; ~27% of R2 mapping cleanly to human only with no detectable mouse contamination), confirming the library is sound and that the four samples can proceed through Cell Ranger <code>multi</code> together.</p>
+
+<div class="panel methods">
+  <h4>Methods detail &mdash; alignment</h4>
+  <p>Alignment was performed with Cell Ranger <b>10.0.0</b> against the GRCh38-2024-A pre-mRNA reference (introns included, per the brief, to retain unspliced reads for downstream velocity work). Pools were processed with <code>cellranger multi</code> with <code>chemistry,SC3Pv4-OCM</code> (auto-detection disabled because it can confuse OCM with standard SC3Pv4). The per-pool config <code>multi_SRAML10.csv</code> contains the <code>[samples]</code> section <code>ocm_barcode_ids: OB1|OB2|OB3|OB4</code>; equivalent files exist for the SRAML7 and SRAML13 pools awaiting the matching OB-to-tube assignment from the sequencing facility. Per-sample filtered feature&ndash;barcode matrices are emitted under <code>per_sample_outs/&lt;sample_id&gt;/sample_filtered_feature_bc_matrix/</code> and feed directly into the Seurat pipeline.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s4">4. QC and pre-processing</h2>
+
+<p>Filtered matrices for the four SRAML10 samples were loaded into Seurat v5 and harmonised under one merged object before any normalisation, so that QC distributions could be visualised side by side. Quality thresholds follow the project brief: 200&ndash;6000 detected genes per cell, &ge;500 UMI, &lt;20% mitochondrial reads, with the minimum-gene gate relaxed to 150 for the low-input tubes 15 and 16. Doublet calls were generated per sample with <code>scDblFinder</code> and removed before normalisation. QC distributions are summarised in <span class="figref"><a href="outputs/seurat/figures/01_QC_violins.pdf">Fig.&nbsp;QC1</a></span>.</p>
+
+<div class="twocol">
+  <div class="stat"><div class="num">10,338</div><div class="lab">High-quality singlet cells (post-QC, SRAML10)</div></div>
+  <div class="stat"><div class="num">7</div><div class="lab">AML cell-state clusters retained for downstream biology</div></div>
+</div>
+
+<div class="panel methods">
+  <h4>Methods detail &mdash; QC, normalisation, integration</h4>
+  <p>Per-sample matrices were merged into a single Seurat object (<code>seurat_01_general.R</code>). Cells were filtered to <code>nFeature_RNA</code> 200&ndash;6000, <code>nCount_RNA</code>&nbsp;&ge;&nbsp;500 and <code>percent.mt</code>&nbsp;&lt;&nbsp;20%, with <code>nFeature_RNA</code>&nbsp;&ge;&nbsp;150 for tubes 15 and 16. Doublets were called per sample with <code>scDblFinder</code> (Germain&nbsp;2021) and removed. Counts were log-normalised (<code>NormalizeData</code>, scale factor 10,000), 3000 variable features were selected by VST (<code>FindVariableFeatures</code>), and <code>ScaleData</code> regressed out <code>percent.mt</code>. Dimensional reduction used 30 PCs, neighbour graphs were built with <code>FindNeighbors(k.param=20)</code>, and clustering was Leiden via <code>FindClusters(algorithm=4, resolution=0.6)</code>. UMAP embeddings were generated on the same PCA. Because all four SRAML10 samples are from one patient, no batch correction was applied within the patient object &mdash; sample identity is confounded with condition by design and integration would dilute the biological signal. Cross-patient integration with Harmony or scVI on <code>patient</code> is the deferred step that will produce the cross-patient consensus object once SRAML7 and SRAML13 are processed.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s5">5. Clustering &amp; first-pass annotation</h2>
+
+<p>The merged SRAML10 object resolved into fourteen Leiden clusters. UMAP projections coloured by cluster, sample, stromal condition and AraC condition are in <span class="figref"><a href="outputs/seurat/figures/02_UMAP_overview.pdf">Fig.&nbsp;U1</a></span> and panels <span class="figref"><a href="outputs/seurat/figures/02a_UMAP_Clusters.pdf">U1a</a></span>&ndash;<span class="figref"><a href="outputs/seurat/figures/02e_UMAP_AraC.pdf">U1e</a></span>. A first-pass cell-type annotation was derived from canonical lineage markers (<span class="figref"><a href="outputs/seurat/figures/04_cluster_marker_dotplot.pdf">Fig.&nbsp;M1</a></span>): primitive AML blasts (HSPC/LSC-like and GMP-like), myeloid AML (Promono/Mono/CD16+ phenotypes), a Stress-response and a Niche-related cluster, ABCB5+ resistant cells, normal lymphocytes (B and T), BM endothelial cells, eosinophils, and HS-5 stromal cells. Per-sample cell counts per cluster are in <a href="outputs/seurat/cluster_cell_counts.csv">cluster_cell_counts.csv</a>; the same matrix reorganised by cell type is in <a href="outputs/seurat/CellType_Counts_per_Sample.csv">CellType_Counts_per_Sample.csv</a>.</p>
+
+<p>The composition shifts visible in the cell-type-by-sample table are already striking: GMP-like blasts collapse from 1190 (untreated, conventional) to 59 (AraC, conventional); the Promono-like quiescent population <b>expands 17-fold under HS-5</b> (25 untreated-conventional &rarr; 429 untreated-co-culture) and a further 1.4-fold when AraC is added on top of HS-5; ABCB5+ resistant cells appear almost exclusively in the AraC-treated conventional arm. These compositional shifts motivate the differential abundance, DE and trajectory analyses that follow.</p>
+
+<!-- ============================================================ -->
+<h2 id="s6">6. Reference-based annotation and signature scoring</h2>
+
+<p>To validate the marker-based labels and to score biological programmes that are not visible from individual marker genes, each cell was projected onto the <b>van Galen et al. 2019</b> AML reference (GSE116256) and scored with <a href="hpc_setup/config/signatures.yml"><code>signatures.yml</code></a>, a curated set of leukaemia stem-cell, quiescence, niche, stress, drug-resistance and apoptosis gene lists (<code>seurat_03_annotate_reference.R</code>). UCell was used for signature scoring because it is rank-based and therefore robust to depth differences across the four samples. Per-cluster mean scores are in <a href="outputs/seurat/seurat_03/tables/ucell_scores_by_cluster.tsv">ucell_scores_by_cluster.tsv</a> and visualised in <span class="figref"><a href="outputs/seurat/seurat_03/figures/03d_ucell_heatmap.pdf">Fig.&nbsp;S1</a></span>; the van Galen S4A class call per cell is on the UMAP in <span class="figref"><a href="outputs/seurat/seurat_03/figures/03e_vgalen_class_umap.pdf">Fig.&nbsp;S2</a></span> and the confusion matrix against the cluster labels is <span class="figref"><a href="outputs/seurat/seurat_03/figures/03f_confusion_existing_vs_vgalen_class.pdf">Fig.&nbsp;S3</a></span>.</p>
+
+<p>The headline findings of this step, distilled in the <a href="docs/annotation_summary_step1.md">annotation summary</a>, are:</p>
+<ul>
+  <li><b>GMP-like AML blasts</b> sit on the HSC&rarr;GMP boundary of the van Galen taxonomy and carry an active drug-metabolism / efflux programme (<code>arac_metabolism</code> + <code>mdr_efflux</code>) at baseline &mdash; before AraC is added.</li>
+  <li><b>Promono-like quiescent myeloid cells</b> co-elevate quiescence (Laurenti HSC + Cheung-Rando), ATF4 integrated-stress-response targets, and the Tikhonova MSC-response programme. The simultaneous lighting-up of <em>quiescence + ISR + MSC response</em> &mdash; not any one alone &mdash; argues that these are <em>actively MSC-induced</em> quiescent cells rather than passively slow-cycling cells; this is the niche-protection state.</li>
+  <li><b>ABCB5+ resistant primitive AML</b> is not a single-gene observation: ABCB5 lights up together with DCK/SAMHD1 (Ara-C metabolism), the MDR efflux pump set, and the ALDH resistance list. The coherence across the entire resistance axis is direct evidence for ABCB5+ as a bona-fide drug-resistant primitive state that sits outside the standard van Galen classes (it scores predominantly as &ldquo;Unassigned&rdquo;).</li>
+  <li>The <b>Niche-stressed primitive (formerly &ldquo;unclassified niche-related&rdquo;)</b> cluster is the only AML cluster strongly elevated for the pro-apoptotic BCL2-family signature alongside dissociation stress &mdash; relevant for the apoptosis-vs-conversion debate in <a href="#s12">&sect;12</a>.</li>
+</ul>
+
+<div class="panel methods">
+  <h4>Methods detail &mdash; reference projection</h4>
+  <p>The van Galen 2019 reference object was assembled from the GEO raw tarball on first run and cached as a SingleR-compatible <code>SummarizedExperiment</code>. SingleR was run against both HumanPrimaryCellAtlas (broad) and the van Galen reference (AML-specific). In parallel, Azimuth label transfer against the Hao/Stuart bone-marrow CITE-seq reference was attempted as an orthogonal opinion when the <code>bonemarrowref</code> SeuratData package was available. UCell scores were computed for each gene set defined in <code>config/signatures.yml</code>; van Galen S4A class was assigned per cell by per-signature z-score argmax with a floor of <code>MIN_Z = 0.5</code> (cells below the floor are tagged Unassigned by design). Seed was fixed at 42 throughout.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s7">7. Malignancy assignment by inferred copy number (inferCNV)</h2>
+
+<p>Several clusters &mdash; in particular CD16+ Mono/macrophage and the HSPC/LSC-like cluster &mdash; cannot be distinguished as malignant or normal from expression alone. inferCNV was run on the full SRAML10 object using the matched <b>B and T cells as the diploid reference</b> (<code>seurat_04_infer_cnv.R</code>). The whole-chromosome heatmap (<span class="figref"><a href="outputs/seurat/seurat_04/infercnv/">infercnv/</a></span>), per-cell CNV burden (<span class="figref"><a href="outputs/seurat/seurat_04/figures/04a_cnv_score_violin.pdf">Fig.&nbsp;C1</a></span>, <span class="figref"><a href="outputs/seurat/seurat_04/figures/04b_cnv_score_umap.pdf">Fig.&nbsp;C2</a></span>) and the per-cluster summary (<a href="outputs/seurat/seurat_04/tables/cluster_cnv_summary.tsv">cluster_cnv_summary.tsv</a>) gave a clear ordering: ABCB5+ resistant primitive AML carried the highest mean CNV burden, followed by the Stress-response, HSPC/LSC-like, and Niche-related clusters. The CD16+ Mono/macrophage cluster sat at the same CNV level as B/T cells &mdash; explicitly classified as <em>Normal-like</em> in <a href="outputs/seurat/seurat_04/tables/cd16_classification.tsv">cd16_classification.tsv</a> &mdash; and was therefore re-labelled as <b>normal CD16+ monocytes</b> rather than AML-derived.</p>
+
+<div class="panel methods">
+  <h4>Methods detail &mdash; inferCNV</h4>
+  <p>inferCNV (v&ge;1.18) was run in subcluster mode with HMM enabled, on the full Seurat object after Step&nbsp;3, with <code>ref_groups = c("B cells","T cells")</code> and HS-5 stromal cells excluded (as a non-haematopoietic cell line they would dominate as &ldquo;non-diploid&rdquo; for the wrong reason). The HMM CNV predictions and de-noised matrices live under <code>outputs/seurat/seurat_04/infercnv/</code>. Per-cell CNV burden was summarised as the mean absolute deviation from the diploid baseline across genes; the cluster-level mean and standard deviation are reported. The CD16+ call is a triangulation against (a) the B/T diploid reference and (b) the mean CNV of known-AML clusters (GMP-like, HSPC/LSC-like); it is listed in the methods as one line of evidence rather than proof, with the recommendation in <a href="#s15">&sect;15</a> that mutation-based confirmation (Vartrix) be added once patient mutation calls are available.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s8">8. Finalised cell-type catalogue and AML compartment</h2>
+
+<p>Steps&nbsp;5&ndash;7 were consolidated by <code>seurat_04b_finalise_annotation.R</code> into a final taxonomy with a single <code>cell_type_final</code> label and a <code>is_aml_category</code> flag (<code>AML</code>, <code>Normal</code>, <code>CellLine</code>, <code>Uncertain</code>). The full mapping is in <a href="outputs/seurat/seurat_04b/tables/cell_type_final_mapping.tsv">cell_type_final_mapping.tsv</a>; cell counts per final label are in <a href="outputs/seurat/seurat_04b/tables/cell_type_final_counts.tsv">cell_type_final_counts.tsv</a>.</p>
+
+<table>
+  <thead><tr><th>Final cell type</th><th>Category</th><th>Cells (SRAML10)</th></tr></thead>
+  <tbody>
+    <tr><td>GMP-like AML</td><td>AML</td><td>2,112</td></tr>
+    <tr><td>HSPC / LSC-like AML</td><td>AML</td><td>1,579</td></tr>
+    <tr><td>Promono quiescent AML</td><td>AML</td><td>1,150</td></tr>
+    <tr><td>Mono-like AML</td><td>AML</td><td>745</td></tr>
+    <tr><td>Stress-response AML</td><td>AML</td><td>581</td></tr>
+    <tr><td>ABCB5+ resistant LSC AML</td><td>AML</td><td>488</td></tr>
+    <tr><td>Niche-stressed primitive AML</td><td>AML</td><td>486</td></tr>
+    <tr><td>Normal CD16+ monocytes</td><td>Normal</td><td>708</td></tr>
+    <tr><td>Normal-like debris (excluded)</td><td>Normal</td><td>772</td></tr>
+    <tr><td>Normal B / T / endothelial</td><td>Normal</td><td>1,198</td></tr>
+    <tr><td>HS-5 stromal (cell line)</td><td>CellLine</td><td>283</td></tr>
+    <tr><td>Eosinophils / basophils (uncertain)</td><td>Uncertain</td><td>236</td></tr>
+  </tbody>
+</table>
+
+<p>For all downstream biology (stress, cycling, DE, trajectory) the object is subset to <code>is_aml_category == "AML"</code> in <code>seurat_04c_subset_aml.R</code>, producing the AML-only object <code>AML_SRAML10_aml_only.RDS</code> with re-computed HVGs, PCA (<code>pca_aml</code>) and UMAP, plus a retained <code>umap_full</code> coordinates as cross-reference. The AML-only UMAP is in <span class="figref"><a href="outputs/seurat/seurat_04c/figures/04c_aml_umap.pdf">Fig.&nbsp;A1</a></span> with companion panels coloured by condition (<span class="figref"><a href="outputs/seurat/seurat_04c/figures/04c_aml_umap_condition.pdf">A1a</a></span>), AraC (<span class="figref"><a href="outputs/seurat/seurat_04c/figures/04c_aml_umap_treatment.pdf">A1b</a></span>) and CNV burden (<span class="figref"><a href="outputs/seurat/seurat_04c/figures/04c_aml_umap_cnv.pdf">A1c</a></span>). The full-vs-AML comparison is in <span class="figref"><a href="outputs/seurat/seurat_04c/figures/04c_umap_full_vs_aml.pdf">A1d</a></span>. The HS-5 stromal compartment is deliberately retained in the original object because the cell&ndash;cell communication step in <a href="#s13">&sect;13</a> needs it as the ligand source.</p>
+
+<!-- ============================================================ -->
+<h2 id="s9">9. Stress and cell-cycle landscape</h2>
+
+<p>The stress and cycling state of each AML cluster was characterised under conventional vs co-culture conditions using UCell scores for Hallmark stress programmes (UPR, hypoxia, ROS, TNFα/NF-κB, inflammatory response, p53, apoptosis), the ATF4 integrated-stress-response target list, the van den Brink dissociation signature, and the Baryawno and Tikhonova niche programmes (<code>seurat_05_stress_cycling.R</code>; results in <a href="outputs/seurat/seurat_05/tables/05_stress_effect_sizes.tsv">05_stress_effect_sizes.tsv</a>, visualised in <span class="figref"><a href="outputs/seurat/seurat_05/figures/05a_stress_violins.pdf">Fig.&nbsp;X1</a></span> and the per-cluster effect-size heatmap <span class="figref"><a href="outputs/seurat/seurat_05/figures/05e_effect_size_heatmap.pdf">Fig.&nbsp;X2</a></span>).</p>
+
+<div class="pull">Co-culture does not simply make AML cells more stressed. ROS and dissociation stress are <em>lower</em> under HS-5 in HSPC/LSC-like, GMP-like, and Mono-like AML, while ATF4 / ISR targets and inflammatory TNFα signalling are elevated. The picture is consistent with an actively reorganised, niche-supported state rather than a generically stressful environment.</p>
+
+<p>Cell-cycle phase was assigned with Seurat's <code>CellCycleScoring</code> using Tirosh et&nbsp;al. 2016 G1/S and G2/M gene lists. Per-cluster phase proportions under each condition (<a href="outputs/seurat/seurat_05/tables/05_cell_cycle_summary.tsv">05_cell_cycle_summary.tsv</a>, <span class="figref"><a href="outputs/seurat/seurat_05/figures/05d_cellcycle_phase_proportions.pdf">Fig.&nbsp;X3</a></span>) recover the expected biology:</p>
+<ul>
+  <li><b>Promono quiescent AML</b> is overwhelmingly G1 in both conditions (100% conventional, 97% co-culture). The cluster is faithfully named.</li>
+  <li><b>HSPC/LSC-like AML</b> shifts further into G1 under HS-5 (66% &rarr; 79% G1), with parallel reductions in S and G2/M, consistent with niche-driven exit from cycle.</li>
+  <li><b>GMP-like AML</b> is heavily cycling in both conditions (S+G2M &gt; 89%), in line with its proliferative blast phenotype.</li>
+</ul>
+
+<p>Within the Promono quiescent cluster, formal Wilcoxon tests with Cliff's δ effect size (<a href="outputs/seurat/seurat_05/tables/05_promono_quiescence_stats.tsv">05_promono_quiescence_stats.tsv</a>) confirmed elevated G2M-score under co-culture (δ = +0.39, p&nbsp;=&nbsp;9.2×10<sup>&minus;4</sup>), driven by the small population of co-culture-induced cells that retain proliferative capacity rather than by a generalised exit from G1. In the ABCB5+ resistant primitive cluster, the conv-untreated vs conv-AraC contrast (<a href="outputs/seurat/seurat_05/tables/05_abcb5_arac_stats.tsv">05_abcb5_arac_stats.tsv</a>) showed reduced S-phase (δ = &minus;0.34) and reduced Ara-C metabolism score (δ = &minus;0.38) in the AraC arm &mdash; consistent with selection of cells that have entered a non-replicating, low-metabolism state to survive cytarabine.</p>
+
+<!-- ============================================================ -->
+<h2 id="s10">10. Differential expression within patient</h2>
+
+<p>For each AML cluster, four single-cell contrasts and two cluster-vs-cluster contrasts were tested with Wilcoxon (<code>presto</code>-accelerated) and Benjamini&ndash;Hochberg correction (<code>seurat_07_de_within_patient.R</code>). The four within-cluster contrasts answer the four faces of the 2&times;2 design:</p>
+
+<table>
+  <thead><tr><th>ID</th><th>Contrast</th><th>Biology</th></tr></thead>
+  <tbody>
+    <tr><td>C1</td><td>Coc<sub>Unt</sub> vs Conv<sub>Unt</sub></td><td>Niche imprint at baseline</td></tr>
+    <tr><td>C2</td><td>Coc<sub>AraC</sub> vs Conv<sub>AraC</sub></td><td>Niche-protected residual disease (clinical core)</td></tr>
+    <tr><td>C3</td><td>Conv<sub>AraC</sub> vs Conv<sub>Unt</sub></td><td>AraC effect without niche</td></tr>
+    <tr><td>C4</td><td>Coc<sub>AraC</sub> vs Coc<sub>Unt</sub></td><td>AraC effect on top of niche</td></tr>
+  </tbody>
+</table>
+
+<p>Two additional &ldquo;special&rdquo; cluster-vs-cluster contrasts addressed open identity questions: <b>S1</b> Niche-stressed primitive AML vs HSPC/LSC-like AML in the conventional arm (is the niche-stressed cluster a stress sub-state of HSPC/LSC, or a transcriptionally distinct primed clone?); <b>S2</b> HSPC/LSC-like vs GMP-like AML across all conditions (is HSPC/LSC-like primitive or committed-myeloid?). The complete contrast summary is in <a href="outputs/seurat/seurat_07/tables/07_de_summary.tsv">07_de_summary.tsv</a>; per-cluster DE tables and volcano plots populate <a href="outputs/seurat/seurat_07/">seurat_07/</a>.</p>
+
+<p>Three concrete observations recur across clusters in the C2 (niche-protected, AraC) contrast and define the residual-disease signature the manuscript should foreground:</p>
+<ol>
+  <li><b>Iron / oxidative-stress homeostasis is uniformly up under HS-5+AraC</b>: FTH1, FTL and GPX1 are top up-regulated genes in HSPC/LSC-like, Mono-like, Promono quiescent and Stress-response AML alike. This is the cellular response to oxidative pressure from the niche-AraC combination, and it converges on ferritin-mediated iron sequestration rather than transcriptional change in canonical anti-apoptotic genes.</li>
+  <li><b>Niche-protected AML cells down-regulate cytotoxic-granule and active-secretion programmes</b> (MT-CO1, LYZ, SPP1, MPO, AZU1, TMSB4X), consistent with a shift away from active monocytic effector function towards a quieter, more primitive phenotype.</li>
+  <li>The <b>Promono quiescent AML cluster shows the strongest niche-protection imprint</b>: the C2 contrast (Coc-AraC vs Conv-AraC) identifies 89 up- and 1,366 down-regulated genes (BH-FDR&nbsp;&lt;&nbsp;0.05), the largest signal in the table. The top up-genes are <em>SIPA1L1, SLC44A1, EPB41L3, SLC16A10, IL1RN</em> &mdash; this is the niche-protected residual-disease transcriptional signature to build the figure around.</li>
+</ol>
+
+<p>The two special contrasts both produced clean results. <b>S1</b> (483 niche-stressed vs 751 HSPC/LSC-like cells, conv arm) yielded 3,854 up- and 673 down-regulated genes &mdash; the niche-stressed cluster is transcriptionally distinct from HSPC/LSC-like, top markers <em>SLCO2B1, MYO1E, DTNA, FMN1, FCGR2C</em>, supporting a primed-precursor interpretation rather than a stress sub-state. <b>S2</b> (HSPC/LSC-like vs GMP-like, all conditions) puts HSPC/LSC-like ahead on <em>NRG1, RNF220, MALAT1, NEAT1, KCNH7</em> and GMP-like ahead on <em>APP, MPO, CCDC26, MKI67, RRM2</em> &mdash; positioning HSPC/LSC-like as the more primitive partner and GMP-like as the actively cycling, granule-producing, committed-myeloid partner.</p>
+
+<div class="panel warn">
+  <h4>Statistical caveat to carry into the paper</h4>
+  <p>All within-cluster contrasts are single-patient single-cell tests and the p-values reflect cell-level variability within SRAML10, not biological replication. They should be presented as <em>hypothesis-generating within one patient</em>. The corresponding pseudobulk DESeq2 analysis (<code>seurat_07b_pseudobulk_de.R</code>) is scripted but cannot be run until SRAML7 and SRAML13 have been processed through the same pipeline, because pseudobulk dispersion is not estimable at n=1 per condition group.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s11">11. Pathway analysis &mdash; AraC and stromal niche</h2>
+
+<p>The full single-cell DE tables were fed into <b>fgsea</b> against MSigDB Hallmark, KEGG and GO-BP collections for each of the four interpretable comparisons of the 2&times;2 design. CSV outputs follow the naming <code>07a/07b/07c/07d_*_GSEA_*.csv</code> with paired bubble plots (NES vs &minus;log<sub>10</sub> adj-p) in <code>outputs/seurat/figures/07*_GSEA_*.pdf</code>.</p>
+
+<h4>AraC effect, no stroma (Hallmark) &mdash; <a href="outputs/seurat/figures/07a_AraC_NoStroma_GSEA_Hallmark.pdf">Fig.&nbsp;P1</a></h4>
+<p>Cytarabine in conventional medium produces the canonical chemo signature: <b>G2M Checkpoint</b> (NES = &minus;2.42), <b>E2F Targets</b> (NES = &minus;2.37), <b>Mitotic Spindle</b> and <b>MYC Targets</b> are all strongly depleted in surviving cells, consistent with elimination of cycling blasts. The reciprocally enriched programmes are <b>Oxidative Phosphorylation</b>, <b>Interferon-γ Response</b>, <b>Inflammatory Response</b>, <b>Complement</b>, and <b>TNFα signalling via NF-κB</b> &mdash; the surviving cells are metabolically rewired and inflammatorily activated.</p>
+
+<h4>AraC effect, with stroma (Hallmark) &mdash; <a href="outputs/seurat/figures/07b_AraC_WithStroma_GSEA_Hallmark.pdf">Fig.&nbsp;P2</a></h4>
+<p>When the same comparison is made under HS-5 co-culture, the cycle-arrest signature is preserved (E2F NES = &minus;2.00, G2M NES = &minus;1.86) but a new, dominant pathway emerges at the top of the list: <b>Epithelial&ndash;Mesenchymal Transition</b> (NES = +2.60). The EMT leading-edge here (PDLIM4, ACTA2, BGN, HTRA1, MSX1, MATN2, MMP3, TFPI2, COL/collagen family, LOX, LOXL2, FN1, CDH2, SNAI2) is essentially a stromal-remodelling / matrix-deposition programme expressed by surviving AML cells under the niche. <b>Hypoxia</b> (NES = +1.72), <b>Coagulation</b> and <b>Angiogenesis</b> co-enrich, and <b>UV Response Down</b> &mdash; a Hallmark proxy for a TGFβ/contractile programme &mdash; ranks second overall. <b>Interferon-γ Response</b> and <b>TNFα-NF-κB</b> are again positive. This is, in effect, the molecular signature of niche-mediated chemoprotection.</p>
+
+<h4>Stromal niche effect under AraC pressure (Hallmark) &mdash; <a href="outputs/seurat/figures/07d_Stroma_WithAraC_GSEA_Hallmark.pdf">Fig.&nbsp;P3</a></h4>
+<p>Comparing AraC + HS-5 directly to AraC alone &mdash; the clinically most relevant contrast for niche-mediated resistance &mdash; reproduces the EMT-led signature (NES = +2.55) and adds <b>Angiogenesis</b>, <b>Glycolysis</b>, <b>Apoptosis (positive enrichment, see caveat below)</b>, <b>UPR</b> and <b>KRAS signalling up</b> as significantly enriched programmes under the niche-protected condition.</p>
+
+<div class="panel note">
+  <h4>Interpretation note &mdash; the &ldquo;Apoptosis&rdquo; enrichment</h4>
+  <p>Hallmark APOPTOSIS contains the entire apoptotic machinery, both pro-survival (BCL2, BIRC) and pro-apoptotic (BAX, BAK, CASP). Its enrichment under HS-5+AraC reflects mobilisation of the apoptotic network, not commitment to apoptosis. The directional interpretation is in the underlying BCL2-family ratio and the Niche-stressed primitive analysis in <a href="#s9">&sect;9</a>, not in the Hallmark NES alone &mdash; this is worth a sentence in the manuscript discussion to pre-empt a reviewer.</p>
+</div>
+
+<p>Across all four panels, the consistent stromal-niche signature is: <em>EMT / matrix remodelling &middot; hypoxia &middot; angiogenesis &middot; KRAS-up</em>, on top of the standard AraC cycle-arrest. This convergence across multiple contrasts (and ultimately, when the cohort expands, across multiple patients) is the kind of pathway-level evidence that anchors a niche-resistance figure.</p>
+
+<!-- ============================================================ -->
+<h2 id="s12">12. Trajectory inference (Slingshot)</h2>
+
+<p>Cell-state structure within the AML compartment was modelled with <b>Slingshot</b> fit on the AML-only PCA (<code>pca_aml</code>, 30 components), with cluster labels from <code>cell_type_final</code> and the ABCB5+ resistant LSC AML cluster forced as the root (chosen because it carries the highest CNV burden and the strongest primitive-LSC signature). The complete output is in <a href="outputs/seurat/seurat_08/">seurat_08/</a>; the lineage summary (<a href="outputs/seurat/seurat_08/tables/08_lineage_summary.tsv">08_lineage_summary.tsv</a>) identifies three lineages:</p>
+
+<table>
+  <thead><tr><th>Lineage</th><th>Path</th><th>Terminal cluster</th></tr></thead>
+  <tbody>
+    <tr><td>L1</td><td>ABCB5+ &rarr; Stress-response &rarr; HSPC/LSC-like &rarr; GMP-like &rarr; <b>Mono-like</b></td><td>Mono-like AML</td></tr>
+    <tr><td>L2</td><td>ABCB5+ &rarr; Stress-response &rarr; HSPC/LSC-like &rarr; <b>Promono quiescent</b></td><td>Promono quiescent AML</td></tr>
+    <tr><td>L3</td><td>ABCB5+ &rarr; <b>Niche-stressed primitive</b></td><td>Niche-stressed primitive AML</td></tr>
+  </tbody>
+</table>
+
+<p>Lineage curves on the UMAP are in <span class="figref"><a href="outputs/seurat/seurat_08/figures/08a_lineage_umap.pdf">Fig.&nbsp;T1</a></span>; per-lineage pseudotime overlays are in <span class="figref"><a href="outputs/seurat/seurat_08/figures/08b_pseudotime_umap.pdf">T2</a></span>; pseudotime distributions by cluster in <span class="figref"><a href="outputs/seurat/seurat_08/figures/08c_pseudotime_by_cluster.pdf">T3</a></span>; and the critical <em>conventional vs co-culture split</em> in <span class="figref"><a href="outputs/seurat/seurat_08/figures/08f_conv_vs_coc_split.pdf">T4</a></span>.</p>
+
+<p>The condition-conditional pseudotime analysis (<a href="outputs/seurat/seurat_08/tables/08_conv_vs_coc_pseudotime.tsv">08_conv_vs_coc_pseudotime.tsv</a>) gave three striking results that bear directly on the H3a (active conversion) vs H3b (differential survival) hypothesis:</p>
+<ul>
+  <li><b>L1 and L2 are flipped on by co-culture, not extended.</b> ABCB5+ and Stress-response clusters carry the bulk of pseudotime mass under conventional conditions and almost none under co-culture (Cliff's δ ≈ &minus;0.80 in both, p&nbsp;&lt;&nbsp;10<sup>&minus;6</sup>). Conversely, Promono quiescent AML mass shifts dramatically toward late pseudotime under co-culture (δ = &minus;0.37 along L2, p&nbsp;&lt;&nbsp;10<sup>&minus;9</sup>).</li>
+  <li>The <b>L3 branch &mdash; ABCB5+ &rarr; Niche-stressed primitive &mdash; is essentially conventional-only</b> (483 conv vs 3 coc cells), making it the topology arm that <em>disappears</em> under HS-5. This is consistent with the niche either resolving the stressed state or selecting against it.</li>
+  <li>The terminal branch under co-culture in L2 is the Promono quiescent cluster &mdash; the same cluster that emerges as the niche-protected residual-disease state in the DE and stress analyses. Three independent lines of evidence (composition, signature scoring, trajectory) therefore converge on Promono quiescent AML as the dominant niche-resistance state.</li>
+</ul>
+
+<div class="panel methods">
+  <h4>Methods detail &mdash; Slingshot</h4>
+  <p>Trajectories were fit with <code>slingshot::slingshot()</code> on PCA coordinates (<code>pca_aml</code>) with <code>clusterLabels = cell_type_final</code> and <code>start.clus = "ABCB5+ resistant LSC AML"</code>. End clusters were not specified &mdash; letting Slingshot identify terminal branches is informative (Promono quiescent emerges as terminal, not as a midpoint). Principal curves were smoothed through cells along the minimum spanning tree on cluster centroids. Pseudotime was reported per lineage. Statistical comparisons between conventional and co-culture cells were paired Wilcoxon with Cliff's δ as the effect size; cells assigned to neither condition were dropped per lineage. The same caveat as <a href="#s10">&sect;10</a> applies: this trajectory is descriptive for SRAML10 and not inferential across patients yet.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s13">13. Cell&ndash;cell communication (LIANA + NicheNet)</h2>
+
+<p>To identify the HS-5 ligands plausibly driving the niche-protected residual-disease state, the co-culture wells of the full object (HS-5 retained) were passed through <b>LIANA</b> (consensus across CellPhoneDB, Connectome, NATMI, SingleCellSignalR and logfc) and <b>NicheNet</b> (ligand activity ranking against AML cluster transcriptomic responses). LIANA was used as a ligand&ndash;receptor triage; NicheNet was used to rank ligands by their ability to explain the cluster-specific gene-expression response (<code>seurat_10_liana_nichenet.R</code>).</p>
+
+<p>The union of top-15 NicheNet ligands across all seven AML receivers (<a href="outputs/seurat/seurat_10/tables/10_nichenet_top_ligands.tsv">10_nichenet_top_ligands.tsv</a>) is dominated by a remarkably consistent core set: <b>IL6, IL24, IL1A, IL1B, JAM2, CSF3, DKK1, TIMP1, GAS6, PSAP, PTPRC, GDNF, IFITM1, MDK, NID1, FBLN2, TGFBI, BDNF</b>. Per-cluster ligand-activity rankings are in <code>outputs/seurat/seurat_10/tables/10_nichenet_*_ligand_activity.tsv</code> and visualised in <span class="figref"><a href="outputs/seurat/seurat_10/figures/10b_nichenet_Promono_quiescent_AML_ligand_activity.pdf">Fig.&nbsp;N1</a></span> (for the Promono quiescent receiver) and the parallel files for the other six AML receivers.</p>
+
+<div class="pull">For the Promono quiescent AML receiver &mdash; the niche-protected residual-disease cluster &mdash; the top six ligands ranked by NicheNet activity are <b>IL6, IL24, IL1A, IL1B, JAM2, DKK1</b>. Three of these (IL6, IL1A/B, DKK1) have direct precedent in published mesenchymal-stromal AML protection biology; JAM2 (junctional adhesion molecule) and IL24 (an IL-10 family cytokine) are less well established and are the novel testable candidates from this experiment.</div>
+
+<p>The ligand&rarr;target and ligand&rarr;receptor heatmaps (<span class="figref"><a href="outputs/seurat/seurat_10/figures/10c_nichenet_ligand_target.pdf">Fig.&nbsp;N2</a></span>, <span class="figref"><a href="outputs/seurat/seurat_10/figures/10d_nichenet_ligand_receptor.pdf">Fig.&nbsp;N3</a></span>) trace these ligands through to the downstream genes in the niche-imprint signature, providing a direct mechanistic bridge from HS-5 expression to the AML transcriptional response.</p>
+
+<div class="panel methods">
+  <h4>Methods detail &mdash; LIANA + NicheNet</h4>
+  <p>LIANA was run in consensus mode (<code>liana_wrap</code> &rarr; <code>liana_aggregate</code>) on co-culture wells only (conventional wells contain no HS-5 source). Source was fixed as HS-5 stromal (cell line); target was each of the seven AML receiver clusters. NicheNet (v&ge;2) was run with the standard prior (auto-downloaded into <code>nichenet_data_dir</code> on first use): the differential-expression response per receiver cluster was computed by comparing Coc-AraC against Coc-Untreated within that cluster, and ligand activity was scored against that response with AUROC, AUPR and Pearson correlation. The union top-15 ligand set across receivers is reported as the panel of niche signals to follow up biologically. The cohort caveat from <a href="#s10">&sect;10</a> carries through: ligand rankings are patient-specific (HS-5 expression is itself a single biological observation per pool, and the AML response is one patient), but the methodology is valid on n=1 because LIANA and NicheNet operate on cell&ndash;gene patterns and external priors rather than on biological replication.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s14">14. CloneTracker XP lineage barcoding</h2>
+
+<p>CloneTracker XP barcodes were extracted opportunistically from the standard 3&prime; GEX library using a custom Python pipeline (<a href="hpc_setup/scripts/extract_clonetracker_barcodes.py"><code>extract_clonetracker_barcodes.py</code></a>) that operates in two modes: (1) BAM-driven, parsing the Cell Ranger <code>possorted_genome_bam.bam</code> for reads with valid cell barcodes whose sequence contains the FBP1 anchor <code>CCGACCACCGAACGCAACGCACGCA</code> immediately 3&prime; of the BC14&minus;spacer&minus;BC30 cassette; and (2) fastq-driven, parsing raw R1/R2 pairs directly as a sanity check. Outputs are per-sample TSVs of (cell&nbsp;barcode, UMI, clone&nbsp;barcode, n&nbsp;reads).</p>
+
+<p>Per-sample recovery for SRAML10 is summarised in <a href="outputs/seurat/AML_SRAML10_barcode_recovery_per_sample.csv">AML_SRAML10_barcode_recovery_per_sample.csv</a>:</p>
+
+<table>
+  <thead><tr><th>Sample</th><th>Cells</th><th>Any barcode</th><th>Confident*</th><th>% confident</th><th>Unique clones</th></tr></thead>
+  <tbody>
+    <tr><td>T11 (Conv, Untreated)</td><td>2,999</td><td>5</td><td>2</td><td>0.07%</td><td>2</td></tr>
+    <tr><td>T12 (Conv, AraC)</td><td>2,912</td><td>11</td><td>3</td><td>0.10%</td><td>1</td></tr>
+    <tr><td>T15 (Coc, Untreated)</td><td>2,639</td><td>10</td><td>7</td><td>0.27%</td><td>5</td></tr>
+    <tr><td>T16 (Coc, AraC)</td><td>1,788</td><td>2</td><td>1</td><td>0.06%</td><td>1</td></tr>
+  </tbody>
+</table>
+<p style="font-size:13px;color:var(--slate);">*Confident = barcode supported by &ge;2 reads after UMI collapse.</p>
+
+<p>One clone (<code>TGGAAGGGCTAATT_CAACGAAGATAAGATTCGAAGAATTCACGA</code>) was detected in three of the four conditions (T12, T15, T16); a small number of additional clones were detected in two conditions. The 4-way overlap table is in <a href="outputs/seurat/AML_SRAML10_4way_clonal_overlap.csv">AML_SRAML10_4way_clonal_overlap.csv</a> and the pairwise Jaccard matrix is in <a href="outputs/seurat/AML_SRAML10_jaccard_overlap.csv">AML_SRAML10_jaccard_overlap.csv</a>. Visual summaries are in <a href="outputs/seurat/figures_clonetracker/">figures_clonetracker/</a>: <span class="figref"><a href="outputs/seurat/figures_clonetracker/08a_CloneTracker_Confident_Overlay.pdf">Fig.&nbsp;CL1</a></span> (overlay on the UMAP), <span class="figref"><a href="outputs/seurat/figures_clonetracker/08b_CloneTracker_UMI_Distribution.pdf">CL2</a></span> (UMI distribution), <span class="figref"><a href="outputs/seurat/figures_clonetracker/09a_CloneTracker_StackedBar.pdf">CL3</a></span> (stacked-bar composition), <span class="figref"><a href="outputs/seurat/figures_clonetracker/09b_CloneTracker_Alluvial.pdf">CL4</a></span> (alluvial across conditions), <span class="figref"><a href="outputs/seurat/figures_clonetracker/09b_CloneTracker_DotMap.pdf">CL5</a></span> (dot map), <span class="figref"><a href="outputs/seurat/figures_clonetracker/10_CloneTracker_Jaccard_Overlap.pdf">CL6</a></span> (Jaccard heatmap).</p>
+
+<div class="panel danger">
+  <h4>Critical caveat for the paper &mdash; CloneTracker recovery is below what is needed for per-clone analyses</h4>
+  <p>Recovery is <b>0.06&ndash;0.27%</b> of cells per sample (versus the &lt;10% estimate that was raised at project planning), giving <b>at most 9 confident clones across all four conditions combined</b> and ~1&ndash;7 cells per clone per condition. This is below the threshold at which per-clone differential expression or per-clone trajectory analyses are statistically defensible. The clonal overlay figures in <code>figures_clonetracker/</code> should be presented as illustrative of a methodology and as proof that opportunistic barcode recovery is feasible from a standard 3&prime; GEX library, <em>not</em> as a quantitative readout of clonal dynamics.</p>
+  <p>The shortfall is explained by the experimental design: a Cellecta enrichment / feature-barcoding library was <em>not</em> run alongside the 3&prime; GEX library, so barcode reads were not specifically amplified. Recovering interpretable clonal dynamics will require an amplicon-seq run targeted at the CloneTracker cassette from the same cell suspensions (the necessary primers and protocol are in the CloneTracker XP product literature). This is the single highest-value addition to the project for any paper that intends to make per-clone claims.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="s15">15. Limitations &amp; cohort gaps</h2>
+
+<p>The findings above stand on solid methodological ground, but three constraints should be stated explicitly in the manuscript &mdash; ideally in a dedicated Limitations subsection &mdash; so reviewers do not have to extract them:</p>
+
+<ol>
+  <li><b>Single-patient cohort for downstream analyses.</b> All cell-state, DE, GSEA, trajectory and cell&ndash;cell communication results in this report are from SRAML10. SRAML7 and SRAML13 fastqs are in hand and the Cell Ranger <code>multi</code> configurations are prepared; processing them through the same pipeline will give a three-patient cohort and unlock the pseudobulk DE (<code>seurat_07b</code>) and MiloR differential-abundance (<code>seurat_09</code>) analyses that require biological replication.</li>
+  <li><b>CloneTracker recovery below the threshold for per-clone biology</b> &mdash; see <a href="#s14">&sect;14</a>. Targeted amplicon-seq is the recommended remedy.</li>
+  <li><b>The CD16+ Mono / macrophage cluster was called &ldquo;Normal-like&rdquo; from CNV burden alone.</b> For a manuscript-grade claim, this should be confirmed orthogonally with mutation-based deconvolution (e.g.&nbsp;Vartrix using FLT3-ITD, NPM1, DNMT3A, IDH1/2 calls from the clinical metadata if available). Until then, the call is reported as <em>one line of evidence</em>.</li>
+</ol>
+
+<p>Additional analyses scripted and ready to run on the cohort-expanded object include MiloR for principled neighbourhood-level differential abundance, pySCENIC for transcription-factor regulon activity (FOXO3, KLF4, BCL6 are the a priori candidates from the quiescence literature), and an mgatk&rarr;MAESTER pipeline to use mitochondrial heteroplasmy as a secondary, sequencing-independent clonal tracer.</p>
+
+<!-- ============================================================ -->
+<h2 id="s16">16. Data &amp; code availability</h2>
+
+<p>All scripts are under <a href="hpc_setup/scripts/"><code>hpc_setup/scripts/</code></a> with matching SLURM submission scripts in <a href="hpc_setup/slurm/"><code>hpc_setup/slurm/</code></a>. The conda environment specifications are in <a href="hpc_setup/envs/"><code>hpc_setup/envs/</code></a> (the <code>scrna</code> environment carries Seurat 5.5, DESeq2, edgeR, fgsea, clusterProfiler, AUCell, SingleR, UCell, NicheNet, LIANA, Slingshot, infercnv, scDblFinder and the matching Python packages; the <code>cellecta</code> environment carries cutadapt, starcode, bartab and pycashier for the CloneTracker pipeline). The reference files (van Galen 2019, MSigDB, Tirosh, NicheNet priors) are described in <a href="hpc_setup/config/references.yml"><code>config/references.yml</code></a>; the signature definitions used for UCell scoring are in <a href="hpc_setup/config/signatures.yml"><code>config/signatures.yml</code></a>.</p>
+
+<p>Processed data lives under <a href="outputs/seurat/"><code>outputs/seurat/</code></a>, organised by analysis step: <code>seurat_03</code> reference annotation, <code>seurat_04</code> inferCNV, <code>seurat_04b</code> annotation finalisation, <code>seurat_04c</code> AML compartment, <code>seurat_05</code> stress / cycling, <code>seurat_07</code> within-patient DE, <code>seurat_08</code> Slingshot trajectory, <code>seurat_10</code> LIANA + NicheNet. The top-level CSV files in <code>outputs/seurat/</code> are the global DE and GSEA outputs; per-step tables and figures are in the matching <code>tables/</code> and <code>figures/</code> subdirectories.</p>
+
+<p>The full project planning chain is in <a href="docs/"><code>docs/</code></a>: the original PM brief (<a href="docs/PM_analysis_brief_S34.md">PM_analysis_brief_S34.md</a>), the consolidated analysis plan (<a href="docs/S34_analysis_plan.md">S34_analysis_plan.md</a>), the Part&nbsp;3 plan (<a href="docs/analysis_plan_part3.md">analysis_plan_part3.md</a>) and the Step&nbsp;1 annotation summary (<a href="docs/annotation_summary_step1.md">annotation_summary_step1.md</a>).</p>
+
+<!-- ============================================================ -->
+<h2 id="s17">17. References</h2>
+<p style="font-size:14px;">van Galen, P. <em>et al.</em> Single-cell RNA-Seq reveals AML hierarchies relevant to disease progression and immunity. <em>Cell</em> 176, 1265&ndash;1281.e24 (2019).</p>
+<p style="font-size:14px;">Ng, S.W.K. <em>et al.</em> A 17-gene stemness score for rapid determination of risk in acute leukaemia. <em>Nature</em> 540, 433&ndash;437 (2016).</p>
+<p style="font-size:14px;">Tirosh, I. <em>et al.</em> Dissecting the multicellular ecosystem of metastatic melanoma by single-cell RNA-seq. <em>Science</em> 352, 189&ndash;196 (2016).</p>
+<p style="font-size:14px;">Tikhonova, A.N. <em>et al.</em> The bone marrow microenvironment at single-cell resolution. <em>Nature</em> 569, 222&ndash;228 (2019).</p>
+<p style="font-size:14px;">Baryawno, N. <em>et al.</em> A cellular taxonomy of the bone marrow stroma in homeostasis and leukemia. <em>Cell</em> 177, 1915&ndash;1932.e16 (2019).</p>
+<p style="font-size:14px;">Laurenti, E. <em>et al.</em> The transcriptional architecture of early human hematopoiesis identifies multilevel control of lymphoid commitment. <em>Nat. Immunol.</em> 14, 756&ndash;763 (2013).</p>
+<p style="font-size:14px;">Eppert, K. <em>et al.</em> Stem cell gene expression programs influence clinical outcome in human leukemia. <em>Nat. Med.</em> 17, 1086&ndash;1093 (2011).</p>
+<p style="font-size:14px;">Andreatta, M. &amp; Carmona, S.J. UCell: robust and scalable single-cell gene signature scoring. <em>Comput. Struct. Biotechnol. J.</em> 19, 3796&ndash;3798 (2021).</p>
+<p style="font-size:14px;">Aran, D. <em>et al.</em> Reference-based analysis of lung single-cell sequencing reveals a transitional profibrotic macrophage (SingleR). <em>Nat. Immunol.</em> 20, 163&ndash;172 (2019).</p>
+<p style="font-size:14px;">Tickle, T., Tirosh, I., Georgescu, C., Brown, M. &amp; Haas, B. inferCNV of the Trinity CTAT Project. https://github.com/broadinstitute/inferCNV (2019).</p>
+<p style="font-size:14px;">Street, K. <em>et al.</em> Slingshot: cell lineage and pseudotime inference for single-cell transcriptomics. <em>BMC Genomics</em> 19, 477 (2018).</p>
+<p style="font-size:14px;">Browaeys, R., Saelens, W. &amp; Saeys, Y. NicheNet: modeling intercellular communication by linking ligands to target genes. <em>Nat. Methods</em> 17, 159&ndash;162 (2020).</p>
+<p style="font-size:14px;">Dimitrov, D. <em>et al.</em> Comparison of methods and resources for cell-cell communication inference from single-cell RNA-Seq data (LIANA). <em>Nat. Commun.</em> 13, 3224 (2022).</p>
+<p style="font-size:14px;">Germain, P.-L., Lun, A., Garcia Meixide, C., Macnair, W. &amp; Robinson, M.D. Doublet identification in single-cell sequencing data using scDblFinder. <em>F1000Research</em> 10, 979 (2021).</p>
+<p style="font-size:14px;">Hao, Y. <em>et al.</em> Integrated analysis of multimodal single-cell data (Seurat v4/v5). <em>Cell</em> 184, 3573&ndash;3587 (2021).</p>
+<p style="font-size:14px;">Subramanian, A. <em>et al.</em> Gene set enrichment analysis: a knowledge-based approach for interpreting genome-wide expression profiles (fgsea/MSigDB). <em>PNAS</em> 102, 15545&ndash;15550 (2005).</p>
+
+<footer>
+ICR Project S34 &middot; AML CloneTracker XP &middot; Bioinformatics report by Ayeh Sadr (ICR) for the Tonks (Cardiff) and Khorashad (RMS) teams &middot; 2026-05-27. This report describes the SRAML10 single-patient analysis; SRAML7 and SRAML13 will be added once their downstream Seurat objects are built.
+</footer>
+
+</div>
+</body>
+</html>

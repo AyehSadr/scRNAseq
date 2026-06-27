@@ -1,0 +1,5 @@
+pool_id	sample_id	patient	tube	stroma_HS5	chemo_AraC	approx_cells_x10k	condition	cmo_id
+S34_02	P2_T11_noStroma_noAraC	SRAML10	11	-	-	28	Untreated_NoStromal	OB1
+S34_02	P2_T12_noStroma_AraC	SRAML10	12	-	+	17	Treated_NoStromal	OB2
+S34_02	P2_T15_Stroma_noAraC	SRAML10	15	+	-	7.5	Untreated_Stromal	OB3
+S34_02	P2_T16_Stroma_AraC	SRAML10	16	+	+	6.75	Treated_Stromal	OB4

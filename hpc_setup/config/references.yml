@@ -1,0 +1,61 @@
+# ============================================================
+# scRNA-seq reference atlases for AML annotation
+# Used by code/01_download_references.sh
+#
+# Each entry needs:
+#   url             — direct download URL
+#   subdir          — subfolder under ${REFS_DIR}
+# Optional:
+#   filename        — defaults to basename(url)
+#   md5             — verify after download
+#   extract_marker  — file expected inside the tar; if present, skip extraction
+#   enabled         — set false to skip the block
+# ============================================================
+
+van_galen_2019:
+  description: AML scRNA-seq atlas, 16 AML + 5 healthy donors (Cell 2019)
+  citation: van Galen P et al., Cell 176(6):1265-1281, 2019
+  geo: GSE116256
+  url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE116nnn/GSE116256/suppl/GSE116256_RAW.tar
+  subdir: van_galen_2019
+  extract_marker: GSM3587923_AML1012-D0.anno.txt.gz
+  # md5: <paste from GEO FTP if you want strict verification>
+
+baryawno_2019:
+  description: Bone marrow niche scRNA-seq (Cell 2019) — niche signature source
+  citation: Baryawno N et al., Cell 177(7):1915-1932, 2019
+  geo: GSE128423
+  url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE128nnn/GSE128423/suppl/GSE128423_RAW.tar
+  subdir: baryawno_2019
+  extract_marker: filelist.txt   # update once you've inspected the tar
+
+tikhonova_2019:
+  description: BM mesenchymal niche scRNA-seq (Nature 2019)
+  citation: Tikhonova AN et al., Nature 569(7755):222-228, 2019
+  geo: GSE108892
+  url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE108nnn/GSE108892/suppl/GSE108892_RAW.tar
+  subdir: tikhonova_2019
+  extract_marker: filelist.txt
+
+msigdb_hallmark:
+  description: MSigDB Hallmark gene sets, human symbols
+  citation: Liberzon A et al., Cell Syst 1(6):417-425, 2015
+  url: https://data.broadinstitute.org/gsea-msigdb/msigdb/release/2023.2.Hs/h.all.v2023.2.Hs.symbols.gmt
+  subdir: msigdb
+
+# --- Disabled blocks (placeholders) -------------------------------------
+# Enable once URLs are confirmed against the paper's data-availability section.
+
+zeng_2025:
+  enabled: false
+  description: 263k cell healthy hematopoiesis reference (Blood Cancer Discov 2025)
+  citation: Zeng AGX et al., Blood Cancer Discov, 2025
+  url: ""                              # TODO: Zenodo DOI from paper
+  subdir: zeng_2025
+
+triana_2021:
+  enabled: false
+  description: CITE-seq healthy bone marrow (Nat Cell Biol 2021)
+  citation: Triana S et al., Nat Cell Biol 23(12):1322-1333, 2021
+  url: ""                              # TODO: figshare direct link
+  subdir: triana_2021

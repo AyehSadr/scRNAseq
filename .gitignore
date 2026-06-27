@@ -1,0 +1,41 @@
+# Exclude large data files
+Data/S34_*.fastq.gz
+Data/S34_*.fastq
+Data/*.tar.gz
+Data/*.zip
+
+# Exclude Cell Ranger binary and archive
+hpc_setup/cellranger-10.0.0.tar.gz
+hpc_setup/cellranger-10.0.0/
+
+# Exclude massive Seurat RDS files (exceeding 100MB)
+*.RDS
+*.rds
+**/*.RDS
+**/*.rds
+
+# Exclude inferCNV intermediate objects and cache directories
+**/*.infercnv_obj
+**/*.mcmc_obj
+**/*.hmm_mode*
+outputs/seurat/seurat_04/infercnv/
+
+# Exclude logs, system and temporary files
+.DS_Store
+**/.DS_Store
+Thumbs.db
+logs/
+hpc_setup/logs/
+*.log
+*.out
+*.err
+
+# Python cache / env
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+.env
+.venv
+venv/
+env/

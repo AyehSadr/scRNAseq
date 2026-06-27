@@ -1,0 +1,9 @@
+cluster	contrast_id	group1	group2	n1	n2	reason
+ABCB5+ resistant LSC AML	C1	Coc_Unt	Conv_Unt	2	14	n1=2 n2=14 < 25
+ABCB5+ resistant LSC AML	C2	Coc_AraC	Conv_AraC	10	462	n1=10 n2=462 < 25
+ABCB5+ resistant LSC AML	C3	Conv_AraC	Conv_Unt	462	14	n1=462 n2=14 < 25
+ABCB5+ resistant LSC AML	C4	Coc_AraC	Coc_Unt	10	2	n1=10 n2=2 < 25
+Niche-stressed primitive AML	C1	Coc_Unt	Conv_Unt	3	482	n1=3 n2=482 < 25
+Niche-stressed primitive AML	C2	Coc_AraC	Conv_AraC	0	1	n1=0 n2=1 < 25
+Niche-stressed primitive AML	C3	Conv_AraC	Conv_Unt	1	482	n1=1 n2=482 < 25
+Niche-stressed primitive AML	C4	Coc_AraC	Coc_Unt	0	3	n1=0 n2=3 < 25

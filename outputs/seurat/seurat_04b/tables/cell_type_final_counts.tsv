@@ -1,0 +1,15 @@
+cell_type_final	is_aml_category	Freq
+GMP-like AML	AML	2112
+HSPC / LSC-like AML	AML	1579
+Promono quiescent AML	AML	1150
+Mono-like AML	AML	745
+Stress-response AML	AML	581
+ABCB5+ resistant LSC AML	AML	488
+Niche-stressed primitive AML	AML	486
+Eosinophils / basophils (uncertain)	Uncertain	236
+Normal-like debris (excl.)	Normal	772
+Normal CD16+ monocytes	Normal	708
+Normal B cells	Normal	466
+Normal BM endothelial	Normal	412
+Normal T cells	Normal	320
+HS-5 stromal (cell line)	CellLine	283

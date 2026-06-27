@@ -1,0 +1,4 @@
+lineage_id	n_clusters	start_cluster	end_cluster	path
+L1	5	ABCB5+ resistant LSC AML	Mono-like AML	ABCB5+ resistant LSC AML → Stress-response AML → HSPC / LSC-like AML → GMP-like AML → Mono-like AML
+L2	4	ABCB5+ resistant LSC AML	Promono quiescent AML	ABCB5+ resistant LSC AML → Stress-response AML → HSPC / LSC-like AML → Promono quiescent AML
+L3	2	ABCB5+ resistant LSC AML	Niche-stressed primitive AML	ABCB5+ resistant LSC AML → Niche-stressed primitive AML

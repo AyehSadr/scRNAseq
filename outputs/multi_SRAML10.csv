@@ -1,0 +1,31 @@
+# =============================================================================
+# Cell Ranger multi config — Patient 2 (SRAML10) OCM pool
+# Project: ICR S34 (run1930)  |  Falcon project: SCWF00196
+# Chemistry: GEM-X Universal 3' v4 with On-Chip Multiplexing (OCM)
+# Demultiplexing: bead barcodes OB1..OB4 (mapping confirmed by ICR Genomics, 2026-05-06)
+#
+# IMPORTANT — fill in two things before running:
+#   (1) [gene-expression] reference: path to the 10x GRCh38 reference you install
+#   (2) [libraries] fastq_id and fastqs: confirm with the actual fastq prefix on Falcon
+#
+# Run with:
+#   cellranger multi --id=SRAML10_multi --csv=multi_SRAML10.csv \
+#                    --localcores=16 --localmem=128
+# =============================================================================
+
+[gene-expression]
+ref,/shared/scratch/SCWF00196/c.medas36/refs/refdata-gex-GRCh38-2024-A
+chemistry,SC3Pv4-OCM
+create-bam,true
+# include-introns,true     # default true in CR 8+; uncomment only to override
+
+[libraries]
+fastq_id,fastqs,lanes,feature_types
+S34_02,/shared/scratch/SCWF00196/c.medas36/fastqs/run1930/SRAML10_pool,any,Gene Expression
+
+[samples]
+sample_id,ocm_barcode_ids,description
+SRAML10_11,OB1,Patient2_tube11      # condition mapping TBD from Sian Rizzo wet-lab sheet
+SRAML10_12,OB2,Patient2_tube12
+SRAML10_15,OB3,Patient2_tube15
+SRAML10_16,OB4,Patient2_tube16

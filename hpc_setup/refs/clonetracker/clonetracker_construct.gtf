@@ -1,0 +1,6 @@
+##description: Custom GTF for the CloneTracker XP construct.
+##notes: Length below (720 bp) MUST be updated to match the real construct sequence
+## once you replace clonetracker_construct.fa. The exon must span 1..length.
+## gene_biotype "protein_coding" so that Cell Ranger keeps the contig in the
+## filtered matrix.
+CloneTracker_construct	custom	exon	1	720	.	+	.	gene_id "CloneTracker"; transcript_id "CloneTracker.1"; gene_name "CloneTracker"; gene_biotype "protein_coding";

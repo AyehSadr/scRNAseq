@@ -1,0 +1,15 @@
+	HSPC / LSC-like AML	ABCB5+ resistant LSC AML	GMP-like AML	Promono quiescent AML	Mono-like AML	Stress-response AML	Niche-stressed primitive AML	Eosinophils / basophils (uncertain)	Normal CD16+ monocytes	Normal BM endothelial	Normal B cells	Normal T cells	Normal-like debris (excl.)	HS-5 stromal (cell line)
+GMP-like AML blasts	0	0	2112	0	0	0	0	0	0	0	0	0	0	0
+HSPC / LSC-like blasts	1579	0	0	0	0	0	0	0	0	0	0	0	0	0
+Promono-like / quiescent myeloid	0	0	0	1150	0	0	0	0	0	0	0	0	0	0
+Unclassified (low-quality?)	0	0	0	0	0	0	0	0	0	0	0	0	772	0
+Mono-like AML	0	0	0	0	745	0	0	0	0	0	0	0	0	0
+CD16+ Mono / macrophage	0	0	0	0	0	0	0	0	708	0	0	0	0	0
+Stress-response myeloid	0	0	0	0	0	581	0	0	0	0	0	0	0	0
+ABCB5+ resistant primitive AML	0	488	0	0	0	0	0	0	0	0	0	0	0	0
+Unclassified niche-related	0	0	0	0	0	0	486	0	0	0	0	0	0	0
+B cells	0	0	0	0	0	0	0	0	0	0	466	0	0	0
+BM endothelial	0	0	0	0	0	0	0	0	0	412	0	0	0	0
+T cells	0	0	0	0	0	0	0	0	0	0	0	320	0	0
+HS5 stromal / MSC	0	0	0	0	0	0	0	0	0	0	0	0	0	283
+Eosinophils / basophils	0	0	0	0	0	0	0	236	0	0	0	0	0	0

@@ -1,0 +1,155 @@
+# ============================================================
+# Curated gene signatures for UCell scoring in seurat_03 and beyond.
+# Each entry has:
+#   description : short note
+#   citation    : where the list came from
+#   genes       : HGNC symbols (case-sensitive)
+# Add new signatures by appending; do not edit gene lists in-place once a
+# manuscript figure has been generated from them (track version in git).
+# ============================================================
+
+# --- Leukaemic / stemness ----------------------------------------------------
+
+lsc17:
+  description: 17-gene LSC score, prognostic in AML
+  citation: Ng SWK et al., Nature 540(7633):433-437, 2016
+  genes: [DNMT3B, ZBTB46, NYNRIN, ARHGAP22, LAPTM4B, MMRN1, DPYSL3, KIAA0125,
+          CDK6, CPXM1, SOCS2, SMIM24, EMP1, NGFRAP1, CD34, AKR1C3, GPR56]
+
+eppert_hsc:
+  description: HSC self-renewal gene set from xenotransplant LSC screen
+  citation: Eppert K et al., Nat Med 17(9):1086-1093, 2011
+  genes: [HLF, MEF2C, PROM1, ABCA8, MAMDC2, DSE, BIVM, MTL5, RUNX2, GUCY1A3,
+          SLC4A4, ALDH1A1, MEIS1, HOXA9, HOXA10, MYCT1, NFIB, ZNF521]
+
+van_galen_hsc_like:
+  description: HSC-like malignant blast markers from van Galen 2019
+  citation: van Galen P et al., Cell 176(6):1265-1281, 2019
+  genes: [CD34, KIT, AVP, HLF, MEIS1, MLLT3, EGFL7, NRIP1, SPINK2, PRSS57]
+
+van_galen_gmp_like:
+  description: GMP-like malignant blast markers from van Galen 2019
+  citation: van Galen P et al., Cell 176(6):1265-1281, 2019
+  genes: [MPO, ELANE, AZU1, PRTN3, CTSG, LYZ, CSTA, RNASE2, RNASE3, CFD]
+
+van_galen_promono_like:
+  description: Promonocyte-like malignant blast markers from van Galen 2019
+  citation: van Galen P et al., Cell 176(6):1265-1281, 2019
+  genes: [LYZ, CSTA, S100A8, S100A9, MNDA, FCN1, CTSS, CSTB, S100A12, VCAN]
+
+# --- Quiescence / dormancy ---------------------------------------------------
+
+cheung_rando_quiescence:
+  description: HSC quiescence programme
+  citation: Cheung TH & Rando TA, Nat Rev Mol Cell Biol 14(6):329-340, 2013
+  genes: [CDKN1A, CDKN1B, CDKN2A, FOXO3, MEF2C, MEIS1, HLF, MLLT3,
+          TGFB1, TGFBR2, EGR1, KLF4, BCL6, FOXO1, FOXO4, SLC2A1]
+
+laurenti_hsc_quiescence:
+  description: Quiescent HSC programme
+  citation: Laurenti E et al., Cell Stem Cell 16(3):302-313, 2015
+  genes: [HLF, MEIS1, MLLT3, FOXO3, EGR1, CDKN1A, CDKN1C, NR4A2, ZFP36L2,
+          KLF6, JUNB, IER2, BTG2, GADD45B, TXNIP, HES1]
+
+# --- Stress signalling -------------------------------------------------------
+
+van_den_brink_dissociation:
+  description: Dissociation-induced stress; regress out or check before stress claims
+  citation: van den Brink SC et al., Nat Methods 14(10):935-936, 2017
+  genes: [FOS, JUN, JUNB, JUND, EGR1, ATF3, DUSP1, ZFP36, IER2, IER3,
+          HSPA1A, HSPA1B, HSPB1, HSP90AA1, NFKBIA, KLF6, ATF4, DDIT3]
+
+isr_atf4_targets:
+  description: Integrated stress response — ATF4 target genes
+  citation: Harding HP et al., Mol Cell 11(3):619-633, 2003
+  genes: [ATF4, ATF3, DDIT3, DDIT4, ASNS, CHAC1, TRIB3, PSAT1, PHGDH, SLC7A11,
+          PCK2, GADD45A, EIF4EBP1, SESN2, MTHFD2]
+
+# --- Niche interactions ------------------------------------------------------
+
+baryawno_niche_signal:
+  description: BM niche–blast cross-talk programme
+  citation: Baryawno N et al., Cell 177(7):1915-1932, 2019
+  genes: [CXCR4, CXCL12, KITLG, KIT, ANGPT1, TEK, JAG1, NOTCH1, NOTCH2,
+          ITGA4, ITGB1, VCAM1, CDH2, BMP4, TGFB1, TGFBR2]
+
+tikhonova_msc_response:
+  description: MSC-induced response in haematopoietic cells
+  citation: Tikhonova AN et al., Nature 569(7755):222-228, 2019
+  genes: [CXCR4, CXCL12, IL6ST, ITGA4, ITGB1, VCAM1, SPP1, ANXA1, ANXA2,
+          GAS6, MERTK]
+
+# --- Drug resistance / Ara-C metabolism --------------------------------------
+
+arac_metabolism:
+  description: Ara-C uptake, activation and inactivation genes
+  citation: Sampath D, Curr Hematol Malig Rep 14(3):187-194, 2019 (review)
+  genes: [DCK, SLC29A1, SLC29A2, SLC28A1, SLC28A3,
+          SAMHD1, CDA, NT5C2, RRM1, RRM2, POLE, POLA1]
+
+mdr_efflux:
+  description: Multidrug-resistance efflux pumps
+  citation: Gottesman MM & Ling V, FEBS Lett 580(4):998-1009, 2006
+  genes: [ABCB1, ABCB5, ABCC1, ABCC2, ABCC3, ABCG2, MVP]
+
+aldh_resistance:
+  description: ALDH-high stem-cell-like resistance programme
+  citation: Cheung AMS et al., Leukemia 21(7):1423-1430, 2007
+  genes: [ALDH1A1, ALDH2, ALDH3A1, ALDH3A2, ALDH9A1, ALDH18A1]
+
+# --- Apoptosis / survival ----------------------------------------------------
+
+bcl2_family_pro_survival:
+  description: Anti-apoptotic BCL2 family
+  citation: Hallmark APOPTOSIS / Czabotar PE et al., Nat Rev Mol Cell Biol 2014
+  genes: [BCL2, BCL2L1, BCL2L2, MCL1, BCL2A1]
+
+bcl2_family_pro_apoptotic:
+  description: Pro-apoptotic BCL2 family (effectors + BH3-only)
+  citation: Czabotar PE et al., Nat Rev Mol Cell Biol 15(1):49-63, 2014
+  genes: [BAX, BAK1, BOK, BAD, BID, BIK, BIM, BMF, HRK, PMAIP1, BBC3]
+
+
+# --- van Galen Cell 2019 supplementary Table S4A specificity-correlated signatures ---
+#
+# Derived from Table S4A "Correlation to prediction score in malignant cells" columns,
+# filtered on:
+#   - correlation in target class >= 0.10
+#   - margin over other two classes >= 0.05
+#   - manual housekeeping denylist (ribosomal, eIF*, ubiquitin, actin/tubulin, MT-*,
+#     histones, MALAT1/NEAT1, etc.)
+# Then top 40 by correlation within survivors per class.
+#
+# Note: van Galen Table S4A has THREE classes (HSC/Prog, GMP, Myeloid) — Promonocyte
+# and Monocyte are merged into Myeloid in this table. Argmax classification using
+# these three lists gives the cleanest van-Galen-style class call. The previous
+# four-class mmc4 lists (deprecated 2026-05-23) leaked housekeeping into mono and
+# produced a degenerate argmax — see 03f from that run.
+
+vgalen_hsc_s4a:
+  description: HSC/Prog-like — top S4A correlation-specific, housekeeping-filtered
+  citation: van Galen P et al., Cell 176(6):1265-1281, 2019 (Table S4A; corr>=0.10, margin>=0.05)
+  # 2026-05-23 audit: removed LRRC75A-AS1, TAPT1-AS1, DBET, LINC01623 — lncRNAs that
+  # are inconsistently retained across CellRanger reference versions and can be
+  # silently dropped by UCell, shrinking the effective signature.
+  genes: [GAS5, ANGPT1, GUCY1A3, PTPRCAP, DSE, SOX4, EGFL7, CD96, CD34, NPR3,
+          PEBP1, SPN, C1orf186, FLT3, TPM4, SLC38A1, STON2, CD200, PARP1, BMI1,
+          SATB1, KMT2A, PIM1, TMEM123, HERC2, CHD4, HSH2D, PDLIM1, GNPTAB, IL2RA,
+          CPNE1, CD52, CD74, DDX17, ARHGAP25, CIRBP]
+
+vgalen_gmp_s4a:
+  description: GMP-like — top S4A correlation-specific, housekeeping-filtered
+  citation: van Galen P et al., Cell 176(6):1265-1281, 2019 (Table S4A; corr>=0.10, margin>=0.05)
+  # 2026-05-23 audit: removed RNA5-8S — that's 5.8S ribosomal RNA, ambient-RNA
+  # pollutant; would inflate GMP scores in low-quality/dying cells.
+  genes: [PRSS57, POU4F1, CALR, CLEC11A, LINC01835, MIF, C1QTNF4, TRH, TM7SF3,
+          RUNX1T1, MYC, HMGA1, C1QBP, CAV1, MDK, MGST1, C1orf228, RAPGEF6, PRAME,
+          THSD7A, VAMP8, MLEC, CCND1, CAT, COMT, FAM46A, CITED2, GTSF1, TARP]
+
+vgalen_myeloid_s4a:
+  description: Myeloid-like (combines promono + mono in S4A) — top S4A correlation-specific
+  citation: van Galen P et al., Cell 176(6):1265-1281, 2019 (Table S4A; corr>=0.10, margin>=0.05)
+  genes: [PSAP, S100A6, LGALS3, ADA2, CFD, MARCKS, CD68, S100A4, SCPEP1, GRN,
+          TYROBP, ITGB2, JUN, VMP1, LCP1, TNFAIP2, AHNAK, CTSB, MS4A7, EVI2B,
+          IQGAP1, CST3, PLD3, CTSD, CLEC12A, DUSP1, FYB1, LGALS1, TMSB10, LMNA,
+          DMXL2, LAPTM5, HSPA5, CXCL8, PLIN2, LST1, EMB, VSIR, NFKBIZ, TSPO]

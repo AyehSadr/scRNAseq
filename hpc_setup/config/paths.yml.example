@@ -1,0 +1,24 @@
+# ============================================================
+# Per-machine paths for the AML_Cellecta project.
+# Copy to paths.yml (which is .gitignored) and edit for your environment.
+# ============================================================
+
+# Shared, read-only reference atlases (van Galen, Baryawno, etc.).
+# On Cardiff Falcon, prefer a group-level location so everyone reuses one copy.
+#
+# Examples:
+#   /scratch/$USER/refs/scrna           # personal scratch
+#   /projects/<group>/refs/scrna        # group project space (preferred)
+#   /mnt/clusters/falcon/refs/scrna     # shared mount, if your group has one
+refs_dir: /scratch/CHANGE_ME/refs/scrna
+
+# Raw 10x outputs (CellRanger /outs folders) for the 12 AML samples.
+raw_dir: /scratch/CHANGE_ME/aml_cellecta/raw
+
+# Working scratch — Seurat objects, intermediate qs2 / h5ad, plots in progress.
+# Anything you would lose to a scratch purge without crying.
+work_dir: /scratch/CHANGE_ME/aml_cellecta/work
+
+# Results staged for backup / manuscript (figures, tables, final objects).
+# Sync this to long-term storage (OneDrive, RDS, etc.) periodically.
+results_dir: /scratch/CHANGE_ME/aml_cellecta/results

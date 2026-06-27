@@ -1,0 +1,63 @@
+name: scrna
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - pip
+  # --- Read alignment / SAM-BAM tooling ---
+  - samtools=1.20
+  - htslib=1.20
+  - bcftools=1.20
+  - pysam>=0.22
+  - umi_tools>=1.1.5
+  - subread=2.0.6
+  - star=2.7.11b
+  - fastqc=0.12.1
+  - multiqc>=1.25
+  - seqkit>=2.8
+  # --- Python scientific stack ---
+  - pandas
+  - numpy
+  - scipy
+  - matplotlib
+  - seaborn
+  - tqdm
+  - h5py
+  # --- Python single-cell ---
+  - scanpy>=1.10
+  - anndata>=0.10
+  - leidenalg
+  - python-igraph
+  # PM brief: per-sample doublet detection (Analysis pre-processing)
+  - scrublet>=0.2
+  # PM brief Analysis 2: gene set enrichment in Python
+  - gseapy>=1.1
+  # --- R single-cell ---
+  - r-base=4.4
+  - r-essentials
+  - bioconductor-dropletutils
+  - bioconductor-singlecellexperiment
+  - r-seurat>=5.1
+  - r-harmony
+  # PM brief Analysis 1: pseudo-bulk DGE
+  - bioconductor-deseq2
+  - bioconductor-edger
+  # PM brief Analysis 2: GSEA / pathway analysis (R side)
+  - bioconductor-fgsea
+  - bioconductor-clusterprofiler
+  - r-msigdbr
+  # PM brief Analyses 3/4: signature scoring + label transfer
+  - bioconductor-aucell
+  - bioconductor-ucell
+  - bioconductor-singler
+  - bioconductor-celldex
+  - bioconductor-infercnv
+  - bioconductor-slingshot
+  - r-pheatmap
+  - r-yaml
+  - r-optparse
+  - r-ggpubr
+  - pip:
+      - doubletdetection            # secondary doublet caller — useful for cross-check vs Scrublet
+      - scvi-tools                  # heavy (~2 GB torch); comment out if solve is too slow
