@@ -54,3 +54,7 @@ __pycache__/
 .venv
 venv/
 env/
+
+# Exclude project-specific configurations and documentation
+hpc_setup/config/samples.tsv
+docs/

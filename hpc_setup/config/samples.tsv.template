@@ -1,0 +1,5 @@
+pool_id	sample_id	patient	tube	stroma_HS5	chemo_AraC	approx_cells_x10k	condition	cmo_id
+pool_1	sample_01	patient_A	1	-	-	20	Untreated_NoStromal	CMO1
+pool_1	sample_02	patient_A	2	-	+	15	Treated_NoStromal	CMO2
+pool_1	sample_03	patient_A	3	+	-	10	Untreated_Stromal	CMO3
+pool_1	sample_04	patient_A	4	+	+	8	Treated_Stromal	CMO4
