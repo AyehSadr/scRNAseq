@@ -1,3 +1,0 @@
-26ea7c3ff066004df3fe851f508d5629  S34_02_S14_R1_001.fastq.gz
-93eb3f9690e7b155df7ca1755487140e  S34_02_S14_R2_001.fastq.gz
-dc8b518225227e7c57c3fca334c673b3  multiqc_report.html

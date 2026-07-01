@@ -1,4 +1,0 @@
-arm	root	status	n_lineages	lineages
-all	ABCB5+ resistant LSC AML	ok	3	ABCB5+ resistant LSC AML → Stress-response AML → HSPC / LSC-like AML → GMP-like AML → Mono-like AML ; ABCB5+ resistant LSC AML → Stress-response AML → HSPC / LSC-like AML → Promono quiescent AML ; ABCB5+ resistant LSC AML → Niche-stressed primitive AML
-conv	ABCB5+ resistant LSC AML	ok	1	ABCB5+ resistant LSC AML → Niche-stressed primitive AML → Promono quiescent AML → Mono-like AML → GMP-like AML → HSPC / LSC-like AML → Stress-response AML
-coc	HSPC / LSC-like AML	failed	NA	NA

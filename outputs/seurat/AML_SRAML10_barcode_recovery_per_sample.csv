@@ -1,5 +1,0 @@
-"sample_id","n_cells","n_any_clone","n_confident","pct_confident","n_unique_clones","n_likely_doublet"
-"P2_T11_noStroma_noAraC",2999,5,2,0.07,2,0
-"P2_T12_noStroma_AraC",2912,11,3,0.1,1,0
-"P2_T15_Stroma_noAraC",2639,10,7,0.27,5,0
-"P2_T16_Stroma_AraC",1788,2,1,0.06,1,0

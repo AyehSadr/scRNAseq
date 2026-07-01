@@ -1,4 +1,6 @@
 # Exclude large data files
+Data/
+outputs/
 Data/S34_*.fastq.gz
 Data/S34_*.fastq
 Data/*.tar.gz
@@ -9,6 +11,13 @@ multiqc_data/
 fastqc/
 *_fastqc.html
 *_fastqc.zip
+
+# Exclude generated reports and office documents
+*.html
+*.docx
+*.pptx
+*.xlsx
+*.pdf
 
 # Exclude Cell Ranger binary and archive
 hpc_setup/cellranger-10.0.0.tar.gz
