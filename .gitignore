@@ -3,6 +3,12 @@ Data/S34_*.fastq.gz
 Data/S34_*.fastq
 Data/*.tar.gz
 Data/*.zip
+Data/multiqc_report.html
+multiqc_report.html
+multiqc_data/
+fastqc/
+*_fastqc.html
+*_fastqc.zip
 
 # Exclude Cell Ranger binary and archive
 hpc_setup/cellranger-10.0.0.tar.gz
