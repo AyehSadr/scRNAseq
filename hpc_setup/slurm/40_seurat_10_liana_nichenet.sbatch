@@ -6,8 +6,8 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=96G
 #SBATCH --time=06:00:00
-#SBATCH --output=/shared/scratch/SCWF00196/c.medas36/logs/seu_10_comm.%J.out
-#SBATCH --error=/shared/scratch/SCWF00196/c.medas36/logs/seu_10_comm.%J.err
+#SBATCH --output=logs/seu_10_comm.%J.out
+#SBATCH --error=logs/seu_10_comm.%J.err
 
 # =============================================================================
 # Part-3 §8: HS-5 ↔ AML cell-cell communication via LIANA + NicheNet.
@@ -21,7 +21,10 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="/shared/home1/c.medas36/aml_cellecta_setup"
+SCRIPT_DIR="${HOME}/scRNAseq"
+if [ ! -d "${SCRIPT_DIR}" ]; then
+    SCRIPT_DIR="${HOME}/aml_cellecta_setup"
+fi
 source "${SCRIPT_DIR}/config/falcon_env.sh"
 conda activate scrna
 
@@ -29,7 +32,7 @@ OUT_DIR="${PROJECT_ROOT}/seurat"
 mkdir -p "${OUT_DIR}/seurat_10"
 
 # Consume the FULL object (HS-5 retained), NOT the AML-only subset
-RDS_IN="${OUT_DIR}/AML_SRAML10_seurat_general.RDS"
+RDS_IN="${OUT_DIR}/AML_${FALCON_PATIENT}_seurat_general.RDS"
 if [[ ! -f "${RDS_IN}" ]]; then
     echo "ERROR: ${RDS_IN} not found"
     exit 1

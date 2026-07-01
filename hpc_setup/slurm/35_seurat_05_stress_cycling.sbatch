@@ -6,8 +6,8 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=04:00:00
-#SBATCH --output=/shared/scratch/SCWF00196/c.medas36/logs/seu_05_stress.%J.out
-#SBATCH --error=/shared/scratch/SCWF00196/c.medas36/logs/seu_05_stress.%J.err
+#SBATCH --output=logs/seu_05_stress.%J.out
+#SBATCH --error=logs/seu_05_stress.%J.err
 
 # =============================================================================
 # Part-3 §4 + §6: stress signalling (conv vs co-culture, untreated only) and
@@ -17,7 +17,10 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="/shared/home1/c.medas36/aml_cellecta_setup"
+SCRIPT_DIR="${HOME}/scRNAseq"
+if [ ! -d "${SCRIPT_DIR}" ]; then
+    SCRIPT_DIR="${HOME}/aml_cellecta_setup"
+fi
 source "${SCRIPT_DIR}/config/falcon_env.sh"
 conda activate scrna
 
@@ -30,10 +33,10 @@ echo "=== Running seurat_05_stress_cycling.R ==="
 # If that file is missing, fall back to the full object — the script already
 # filters to aml_clusters internally, so the result is biologically the same
 # (just slower and noisier on global QC).
-RDS_IN="${OUT_DIR}/AML_SRAML10_aml_only.RDS"
+RDS_IN="${OUT_DIR}/AML_${FALCON_PATIENT}_aml_only.RDS"
 if [[ ! -f "${RDS_IN}" ]]; then
     echo "WARN: ${RDS_IN} not found — falling back to full object"
-    RDS_IN="${OUT_DIR}/AML_SRAML10_seurat_general.RDS"
+    RDS_IN="${OUT_DIR}/AML_${FALCON_PATIENT}_seurat_general.RDS"
 fi
 echo "Input: ${RDS_IN}"
 

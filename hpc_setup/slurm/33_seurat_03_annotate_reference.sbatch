@@ -6,8 +6,8 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=04:00:00
-#SBATCH --output=/shared/scratch/SCWF00196/c.medas36/logs/seu_ref_anno.%J.out
-#SBATCH --error=/shared/scratch/SCWF00196/c.medas36/logs/seu_ref_anno.%J.err
+#SBATCH --output=logs/seu_ref_anno.%J.out
+#SBATCH --error=logs/seu_ref_anno.%J.err
 
 # =============================================================================
 # Step 1 of Part-3 plan: SingleR + Azimuth label transfer + UCell signatures
@@ -16,7 +16,10 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="/shared/home1/c.medas36/aml_cellecta_setup"
+SCRIPT_DIR="${HOME}/scRNAseq"
+if [ ! -d "${SCRIPT_DIR}" ]; then
+    SCRIPT_DIR="${HOME}/aml_cellecta_setup"
+fi
 source "${SCRIPT_DIR}/config/falcon_env.sh"
 conda activate scrna
 
@@ -32,7 +35,7 @@ echo "  REFS_DIR     = ${REFS_DIR}"
 echo "  SIGS_YML     = ${SIGS_YML}"
 
 Rscript "${SCRIPT_DIR}/scripts/seurat_03_annotate_reference.R" \
-    --rds_in   "${OUT_DIR}/AML_SRAML10_seurat_general.RDS" \
+    --rds_in   "${OUT_DIR}/AML_${FALCON_PATIENT}_seurat_general.RDS" \
     --refs_dir "${REFS_DIR}" \
     --sigs_yml "${SIGS_YML}" \
     --out_dir  "${OUT_DIR}/seurat_03" \

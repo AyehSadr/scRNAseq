@@ -20,8 +20,19 @@ set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORKSPACE_ROOT="$(dirname "${HERE}")"
 
-REMOTE_HOST="c.medas36@falconlogin.cf.ac.uk"
-REMOTE_SCRATCH="/shared/scratch/SCWF00196/c.medas36/seurat/"
+# --- Configuration ---
+# Set this to your Falcon HPC username and project group (or export FALCON_USER / FALCON_PROJECT)
+FALCON_USER="${FALCON_USER:-your_username}"
+FALCON_PROJECT="${FALCON_PROJECT:-your_project_group}"
+FALCON_HOST="falconlogin.cf.ac.uk"
+
+if [ "${FALCON_USER}" = "your_username" ]; then
+    echo "ERROR: Please edit hpc_setup/pull_results.sh and set your FALCON_USER username first." >&2
+    exit 1
+fi
+
+REMOTE_HOST="${FALCON_USER}@${FALCON_HOST}"
+REMOTE_SCRATCH="/shared/scratch/${FALCON_PROJECT}/${FALCON_USER}/seurat/"
 LOCAL_OUT_DIR="${WORKSPACE_ROOT}/outputs/seurat"
 
 INCLUDE_RDS=false

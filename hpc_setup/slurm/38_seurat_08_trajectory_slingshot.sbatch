@@ -6,8 +6,8 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=96G
 #SBATCH --time=04:00:00
-#SBATCH --output=/shared/scratch/SCWF00196/c.medas36/logs/seu_08_sling.%J.out
-#SBATCH --error=/shared/scratch/SCWF00196/c.medas36/logs/seu_08_sling.%J.err
+#SBATCH --output=logs/seu_08_sling.%J.out
+#SBATCH --error=logs/seu_08_sling.%J.err
 
 # =============================================================================
 # Part-3 §3: Slingshot trajectory inference on the AML-only object.
@@ -19,15 +19,18 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="/shared/home1/c.medas36/aml_cellecta_setup"
+SCRIPT_DIR="${HOME}/scRNAseq"
+if [ ! -d "${SCRIPT_DIR}" ]; then
+    SCRIPT_DIR="${HOME}/aml_cellecta_setup"
+fi
 source "${SCRIPT_DIR}/config/falcon_env.sh"
 conda activate scrna
 
 OUT_DIR="${PROJECT_ROOT}/seurat"
 mkdir -p "${OUT_DIR}/seurat_08"
 
-RDS_IN="${OUT_DIR}/AML_SRAML10_aml_only.RDS"
-RDS_OUT="${OUT_DIR}/AML_SRAML10_aml_only_pst.RDS"
+RDS_IN="${OUT_DIR}/AML_${FALCON_PATIENT}_aml_only.RDS"
+RDS_OUT="${OUT_DIR}/AML_${FALCON_PATIENT}_aml_only_pst.RDS"
 
 if [[ ! -f "${RDS_IN}" ]]; then
     echo "ERROR: ${RDS_IN} not found — run seurat_04c first."

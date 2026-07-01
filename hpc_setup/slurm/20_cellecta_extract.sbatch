@@ -11,7 +11,10 @@
 #SBATCH --error=logs/ct_extract.%A_%a.err
 
 set -euo pipefail
-SCRIPT_DIR="/shared/home1/c.medas36/aml_cellecta_setup"
+SCRIPT_DIR="${HOME}/scRNAseq"
+if [ ! -d "${SCRIPT_DIR}" ]; then
+    SCRIPT_DIR="${HOME}/aml_cellecta_setup"
+fi
 source "${SCRIPT_DIR}/config/falcon_env.sh"
 conda activate cellecta
 

@@ -42,7 +42,7 @@ The biological question: how do individual AML clones respond to AraC chemothera
 Stand up the Cardiff Falcon environment so analysis can run reproducibly: directory tree on scratch, conda envs, Cell Ranger install, custom GRCh38 + CloneTracker reference, SLURM submission templates, sample sheet.
 
 **Status (2026-05-04):**
-- ✅ Project allocation confirmed (SCWF00196)
+- ✅ Project allocation confirmed (<your_project_group>)
 - ✅ Directory tree created on Lustre scratch
 - ✅ Conda installed on scratch (NOT home — NFS+SQLite incompatibility forces this)
 - ✅ Both conda envs built (`scrna`, `cellecta`) with all PM-brief packages
@@ -125,7 +125,7 @@ Deliverables: per-sample QC, per-patient + integrated UMAPs, DGE CSVs + volcano 
 
 ```
 ~/aml_cellecta_setup/                          ← mirror of hpc_setup/, deployed via rsync
-/shared/scratch/SCWF00196/c.medas36/           ← project root on scratch
+/shared/scratch/<your_project_group>/<your_username>/           ← project root on scratch
 ├── raw/                                       ← Globus drop (S34_*.fastq.gz)
 ├── refs/
 │   ├── refdata-gex-GRCh38-2024-A/
@@ -144,12 +144,12 @@ Deliverables: per-sample QC, per-patient + integrated UMAPs, DGE CSVs + volcano 
 
 | Field | Value |
 |---|---|
-| Login | `ssh c.medas36@falconlogin.cf.ac.uk` (Cardiff VPN required) |
+| Login | `ssh <your_username>@falconlogin.cf.ac.uk` (Cardiff VPN required) |
 | Open OnDemand | https://falconlogin.cf.ac.uk:8080 |
 | Scheduler | SLURM, partition `compute` |
-| Project code | SCWF00196 |
-| Home | `/shared/home1/c.medas36/` (50 GB, no big data) |
-| Scratch | `/shared/scratch/SCWF00196/` (3 TB, no backup, future 60-day purge) |
+| Project code | <your_project_group> |
+| Home | `/shared/home1/<your_username>/` (50 GB, no big data) |
+| Scratch | `/shared/scratch/<your_project_group>/` (3 TB, no backup, future 60-day purge) |
 | ARCCA support | arcca-help@cardiff.ac.uk · wiki.arcca.cf.ac.uk |
 
 ---
@@ -160,7 +160,7 @@ From the Mac, in `~/Documents/Jamshid/AML_Cellecta/hpc_setup/`:
 
 ```bash
 rsync -av --exclude '.DS_Store' --exclude '__pycache__' \
-  ./ c.medas36@falconlogin.cf.ac.uk:/shared/home1/c.medas36/aml_cellecta_setup/
+  ./ <your_username>@falconlogin.cf.ac.uk:/shared/home1/<your_username>/aml_cellecta_setup/
 ```
 
 Then on Falcon login node:
@@ -188,7 +188,7 @@ sbatch slurm/20_cellecta_extract.sbatch
 
 ## Open items / blockers
 
-1. ~~**Falcon project code**~~ — confirmed as **SCWF00196** (member via `groups`).
+1. ~~**Falcon project code**~~ — confirmed as **<your_project_group>** (member via `groups`).
 2. **CloneTracker construct sequence** — the cassette FASTA in `refs/clonetracker/` is a placeholder; need the real CloneTracker XP construct from Cellecta kit insert (ask Sian Rizzo if missing).
 3. **Chemistry confirmation** — confirm with ICR Genomics (Floriana Manodoro) whether the "fixed cell samples" are standard 10x 3' v3.1 or 10x Flex (probe-based). Flex would invalidate the barcode-recovery half of the pipeline because the CloneTracker transcript would not be captured.
 4. **Sample sheet `fastq_prefix` column** — fill in once Globus delivery to `${PROJECT_ROOT}/raw/` completes.

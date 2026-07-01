@@ -4,7 +4,7 @@ This repository contains the complete bioinformatics workflow and pipeline confi
 
 The project is designed to run on the **Cardiff Falcon HPC cluster** (using SLURM scheduling and Lustre scratch storage) and sync results locally back to your PC.
 
-**Project Unix Group:** `SCWF00196` · **Author:** Ayeh Sadr
+**Project Unix Group:** `<your_project_group>` · **Author:** Ayeh Sadr
 
 ---
 
@@ -59,7 +59,7 @@ bash deploy.sh
 ### 2. Run the Analysis on Falcon
 Log into Falcon, load the environment configurations, and submit your array jobs:
 ```bash
-ssh c.medas36@falconlogin.cf.ac.uk
+ssh <your_username>@falconlogin.cf.ac.uk
 cd ~/aml_cellecta_setup
 source config/falcon_env.sh
 sbatch slurm/34b_seurat_04b_finalise_annotation.sbatch

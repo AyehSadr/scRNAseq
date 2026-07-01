@@ -36,6 +36,8 @@ parser <- add_option(parser, c("--min_feat"), type="integer", default=200,
                      help="Min genes per cell [default: 200]")
 parser <- add_option(parser, c("--max_feat"), type="integer", default=6000,
                      help="Max genes per cell (doublet proxy) [default: 6000]")
+parser <- add_option(parser, c("--sample_sheet"), type="character", default=NULL,
+                     help="Path to sample sheet TSV [default: NULL]")
 opt <- parse_args(parser)
 
 dir.create(opt$out_dir, recursive=TRUE, showWarnings=FALSE)
@@ -49,25 +51,45 @@ message("Cores           : ", opt$ncores)
 register(MulticoreParam(workers=opt$ncores))
 
 # --- Sample metadata ----------------------------------------------------------
-sample_meta <- data.frame(
-  sample_id = c("P2_T11_noStroma_noAraC",
-                "P2_T12_noStroma_AraC",
-                "P2_T15_Stroma_noAraC",
-                "P2_T16_Stroma_AraC"),
-  patient   = "SRAML10",
-  tube      = c(11, 12, 15, 16),
-  stroma    = c(FALSE, FALSE, TRUE,  TRUE),
-  araC      = c(FALSE, TRUE,  FALSE, TRUE),
-  condition = c("Untreated_NoStromal", "Treated_NoStromal",
-                "Untreated_Stromal",   "Treated_Stromal"),
-  stringsAsFactors=FALSE
-)
+if (!is.null(opt$sample_sheet) && file.exists(opt$sample_sheet)) {
+  message("Loading sample metadata dynamically from: ", opt$sample_sheet)
+  sample_meta <- read.delim(opt$sample_sheet, stringsAsFactors=FALSE, sep="\t")
+  
+  # Map columns to script expected names if necessary
+  if (!"stroma" %in% colnames(sample_meta) && "stroma_HS5" %in% colnames(sample_meta)) {
+    sample_meta$stroma <- sample_meta$stroma_HS5 == "+" | tolower(sample_meta$stroma_HS5) == "true"
+  }
+  if (!"araC" %in% colnames(sample_meta) && "chemo_AraC" %in% colnames(sample_meta)) {
+    sample_meta$araC <- sample_meta$chemo_AraC == "+" | tolower(sample_meta$chemo_AraC) == "true"
+  }
+  
+  # Ensure necessary columns are present
+  required_cols <- c("sample_id", "patient", "condition")
+  missing_cols <- setdiff(required_cols, colnames(sample_meta))
+  if (length(missing_cols) > 0) {
+    stop("Sample sheet must contain at least: ", paste(required_cols, collapse=", "))
+  }
+} else {
+  message("No sample sheet provided or file not found. Falling back to default SRAML10 metadata.")
+  sample_meta <- data.frame(
+    sample_id = c("P2_T11_noStroma_noAraC",
+                  "P2_T12_noStroma_AraC",
+                  "P2_T15_Stroma_noAraC",
+                  "P2_T16_Stroma_AraC"),
+    patient   = "SRAML10",
+    tube      = c(11, 12, 15, 16),
+    stroma    = c(FALSE, FALSE, TRUE,  TRUE),
+    araC      = c(FALSE, TRUE,  FALSE, TRUE),
+    condition = c("Untreated_NoStromal", "Treated_NoStromal",
+                  "Untreated_Stromal",   "Treated_Stromal"),
+    stringsAsFactors=FALSE
+  )
+}
 
-# Define consistent color palette for samples
-sample_colors <- c("P2_T11_noStroma_noAraC" = "#1b9e77",  # Dark green
-                   "P2_T12_noStroma_AraC"   = "#d95f02",  # Dark orange
-                   "P2_T15_Stroma_noAraC"   = "#7570b3",  # Purple
-                   "P2_T16_Stroma_AraC"     = "#e7298a")  # Pink
+# Define consistent color palette for samples dynamically
+unique_sids <- unique(sample_meta$sample_id)
+color_palette <- c("#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#e6ab02", "#a6761d", "#666666")
+sample_colors <- setNames(color_palette[1:length(unique_sids)], unique_sids)
 
 # =============================================================================
 # STEP 1: Load Cell Ranger filtered matrices
@@ -466,8 +488,12 @@ run_gsea(de_stroma_arac, "Stroma Effect (With AraC)", "07d_Stroma_WithAraC")
 # =============================================================================
 message("\n--- Step 10: Saving General Seurat object ---")
 
-saveRDS(seu_merged, file=file.path(opt$out_dir, "AML_SRAML10_seurat_general.RDS"))
+patient_name <- if ("patient" %in% colnames(sample_meta)) unique(sample_meta$patient)[1] else "SRAML10"
+if (is.null(patient_name) || is.na(patient_name) || patient_name == "") patient_name <- "Patient"
+output_file_name <- paste0("AML_", patient_name, "_seurat_general.RDS")
+
+saveRDS(seu_merged, file=file.path(opt$out_dir, output_file_name))
 
 message("\n=== General Pipeline complete! ===")
-message("Output RDS : ", file.path(opt$out_dir, "AML_SRAML10_seurat_general.RDS"))
+message("Output RDS : ", file.path(opt$out_dir, output_file_name))
 message("Figures    : ", file.path(opt$out_dir, "figures/"))

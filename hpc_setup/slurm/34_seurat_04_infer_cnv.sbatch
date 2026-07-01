@@ -6,8 +6,8 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=128G
 #SBATCH --time=24:00:00
-#SBATCH --output=/shared/scratch/SCWF00196/c.medas36/logs/seu_infercnv.%J.out
-#SBATCH --error=/shared/scratch/SCWF00196/c.medas36/logs/seu_infercnv.%J.err
+#SBATCH --output=logs/seu_infercnv.%J.out
+#SBATCH --error=logs/seu_infercnv.%J.err
 
 # =============================================================================
 # Step 2 of Part-3 plan: inferCNV — is the CD16+ Mono/Macrophage cluster
@@ -25,7 +25,10 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="/shared/home1/c.medas36/aml_cellecta_setup"
+SCRIPT_DIR="${HOME}/scRNAseq"
+if [ ! -d "${SCRIPT_DIR}" ]; then
+    SCRIPT_DIR="${HOME}/aml_cellecta_setup"
+fi
 source "${SCRIPT_DIR}/config/falcon_env.sh"
 conda activate scrna
 
@@ -44,7 +47,7 @@ echo "  PROJECT_ROOT = ${PROJECT_ROOT}"
 echo "  GENE_ORDER   = ${GENE_ORDER}"
 
 Rscript "${SCRIPT_DIR}/scripts/seurat_04_infer_cnv.R" \
-    --rds_in     "${OUT_DIR}/AML_SRAML10_seurat_general.RDS" \
+    --rds_in     "${OUT_DIR}/AML_${FALCON_PATIENT}_seurat_general.RDS" \
     --gene_order "${GENE_ORDER}" \
     --out_dir    "${OUT_DIR}/seurat_04" \
     --ref_groups "B cells,T cells" \

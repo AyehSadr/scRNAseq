@@ -2,18 +2,19 @@
 # Edit the two values below once your Falcon project is approved.
 
 # --- Falcon project ---------------------------------------------------------
-export FALCON_PROJECT="SCWF00196"            # unix group name, confirmed via `groups` on 2026-05-04
-export FALCON_USER="c.medas36"
+export FALCON_PROJECT="SCWF00196"            # Falcon project UNIX group name, edit this!
+export FALCON_USER="${USER}"                  # Dynamically resolves to current login user
 
 # SLURM accounting account name — usually matches FALCON_PROJECT but can differ.
 # Verify with: sacctmgr show user "$USER" -s format=user,defaultaccount,account%30 -p
 # If you get "Invalid account or account/partition combination" on sbatch, set this
 # to whatever account `sacctmgr` shows next to your username.
-export FALCON_SLURM_ACCOUNT="scwf00196_a_tonks_192"
+export FALCON_SLURM_ACCOUNT="scwf00196_a_tonks_192" # SLURM account name, edit this!
 
 # Tell SLURM to use this account by default — SBATCH_ACCOUNT is honored by sbatch
 # without any --account directive in the script. Single source of truth.
 export SBATCH_ACCOUNT="${FALCON_SLURM_ACCOUNT}"
+export FALCON_PATIENT="SRAML10"              # Patient ID, edit this!
 
 # --- Paths derived from the above ------------------------------------------
 export PROJECT_ROOT="/shared/scratch/${FALCON_PROJECT}/${FALCON_USER}"
@@ -23,7 +24,10 @@ export ENV_DIR="${PROJECT_ROOT}/envs"
 export CR_OUT="${PROJECT_ROOT}/cellranger"
 export CC_OUT="${PROJECT_ROOT}/cellecta"
 export LOG_DIR="${PROJECT_ROOT}/logs"
-export SCRIPT_DIR="${HOME}/aml_cellecta_setup"   # where this repo lives on Falcon
+export SCRIPT_DIR="${HOME}/scRNAseq"
+if [ ! -d "${SCRIPT_DIR}" ]; then
+    export SCRIPT_DIR="${HOME}/aml_cellecta_setup"
+fi
 export SAMPLE_SHEET="${SCRIPT_DIR}/config/samples.tsv"
 
 # --- Conda -----------------------------------------------------------------

@@ -2,7 +2,7 @@
 
 Step-by-step. Run the commands in order; do not skip ahead. Each step ends with **Expected output** (what success looks like) and **If it fails** (what to do).
 
-**Project:** SCWF00196 (Tonks lab) · **User:** c.medas36 · **Cluster:** Falcon (SLURM, Lustre)
+**Project:** <your_project_group> (Tonks lab) · **User:** <your_username> · **Cluster:** Falcon (SLURM, Lustre)
 
 ---
 
@@ -16,10 +16,10 @@ On your **Mac**:
 Test:
 
 ```bash
-ssh c.medas36@falconlogin.cf.ac.uk "echo ok && groups"
+ssh <your_username>@falconlogin.cf.ac.uk "echo ok && groups"
 ```
 
-**Expected:** `ok` and a groups list including `SCWF00196`.
+**Expected:** `ok` and a groups list including `<your_project_group>`.
 
 ---
 
@@ -41,7 +41,7 @@ bash deploy.sh
 ## Step 2 — SSH into Falcon and source the env
 
 ```bash
-ssh c.medas36@falconlogin.cf.ac.uk
+ssh <your_username>@falconlogin.cf.ac.uk
 cd ~/aml_cellecta_setup
 source config/falcon_env.sh
 echo "FALCON_PROJECT=${FALCON_PROJECT}"
@@ -50,13 +50,13 @@ echo "PROJECT_ROOT=${PROJECT_ROOT}"
 
 **Expected:**
 ```
-FALCON_PROJECT=SCWF00196
-PROJECT_ROOT=/shared/scratch/SCWF00196/c.medas36
+FALCON_PROJECT=<your_project_group>
+PROJECT_ROOT=/shared/scratch/<your_project_group>/<your_username>
 ```
 
 No "WARNING: FALCON_PROJECT is unset..." message.
 
-**If you see the warning:** open `config/falcon_env.sh` in nano/vim and confirm the first line has `FALCON_PROJECT="SCWF00196"`, not `SCWF000XX`.
+**If you see the warning:** open `config/falcon_env.sh` in nano/vim and confirm the first line has `FALCON_PROJECT="<your_project_group>"`, not `SCWF000XX`.
 
 ---
 
@@ -68,7 +68,7 @@ bash scripts/00_make_dirs.sh
 
 **Expected:** prints the directory tree under `${PROJECT_ROOT}` (raw, refs, envs, cellranger, cellecta, logs, software). Disk usage line shows ~28K (just inodes).
 
-**If it fails with "Permission denied":** confirm `groups` still includes `SCWF00196`. If yes, contact ARCCA — it should never deny.
+**If it fails with "Permission denied":** confirm `groups` still includes `<your_project_group>`. If yes, contact ARCCA — it should never deny.
 
 ---
 
@@ -79,7 +79,7 @@ bash scripts/00_make_dirs.sh
 ```bash
 bash scripts/01_install_miniconda.sh
 source ~/.bashrc          # or open a new shell
-which conda                # /shared/scratch/SCWF00196/c.medas36/software/miniconda3/bin/conda
+which conda                # /shared/scratch/<your_project_group>/<your_username>/software/miniconda3/bin/conda
 conda --version
 conda config --show channels   # only conda-forge + bioconda
 conda config --show solver     # classic
@@ -100,8 +100,8 @@ conda env list
 
 **Expected (after ~20–40 min on classic solver):**
 ```
-cellecta   /shared/scratch/SCWF00196/c.medas36/software/miniconda3/envs/cellecta
-scrna      /shared/scratch/SCWF00196/c.medas36/software/miniconda3/envs/scrna
+cellecta   /shared/scratch/<your_project_group>/<your_username>/software/miniconda3/envs/cellecta
+scrna      /shared/scratch/<your_project_group>/<your_username>/software/miniconda3/envs/scrna
 ```
 
 The `scrna` env is large (R 4.4 + Seurat 5.5 + Harmony + DropletUtils + DESeq2 + edgeR + fgsea + clusterProfiler + AUCell + SingleR + celldex + Scanpy + Scrublet + gseapy + scvi-tools). Allow plenty of time. The `cellecta` env is small (cutadapt + starcode + samtools + pysam + biopython + bartab + pycashier) — a few minutes.
@@ -155,7 +155,7 @@ cellranger --version
 ```bash
 cd ~/aml_cellecta_setup
 sbatch slurm/03_download_references.sbatch
-squeue -u c.medas36
+squeue -u <your_username>
 ```
 
 **Expected:** a JobID is printed. `squeue` shows the job in PD (pending) then R (running). Runs ~30–60 min depending on Falcon load. Check progress with:
@@ -164,7 +164,7 @@ squeue -u c.medas36
 tail -f ${PROJECT_ROOT}/logs/ref_download.<JobID>.out
 ```
 
-When `squeue -u c.medas36` shows the job is gone:
+When `squeue -u <your_username>` shows the job is gone:
 
 ```bash
 ls -la ${REF_GEX}
@@ -215,7 +215,7 @@ After step 7 has finished and the construct FASTA is real:
 ```bash
 cd ~/aml_cellecta_setup
 sbatch slurm/04_build_clonetracker_ref.sbatch
-squeue -u c.medas36
+squeue -u <your_username>
 ```
 
 Runs ~45 min. Watch:
@@ -275,15 +275,15 @@ sbatch slurm/20_cellecta_extract.sbatch
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| `mkdir: Permission denied` under `/shared/scratch/SCWF00196/` | Not in the SCWF00196 group | `groups` to verify; ask ARCCA if missing |
-| `sbatch: error: invalid account specified` | Account directive mismatch | Confirm `#SBATCH --account=SCWF00196` matches your `groups` |
+| `mkdir: Permission denied` under `/shared/scratch/<your_project_group>/` | Not in the <your_project_group> group | `groups` to verify; ask ARCCA if missing |
+| `sbatch: error: invalid account specified` | Account directive mismatch | Confirm `#SBATCH --account=<your_project_group>` matches your `groups` |
 | `cellranger: command not found` | Path issue or version mismatch | Re-source `config/falcon_env.sh`; confirm `${CELLRANGER_BIN}` matches actual install dir |
 | `ImportError` from python tools | Wrong env activated | `conda activate scrna` (or cellecta) then re-run |
 | Job sits in PD with `(QOSMaxJobsPerUser)` | Too many submitted | Wait or reduce array concurrency from `%4` to `%2` |
 | Job killed with `OOM` | Hit memory limit | Bump `#SBATCH --mem=` in the relevant sbatch file |
 | Reference download timed out | wget 4-hour limit | Re-submit; the script resumes partial files |
 | `sqlite3.OperationalError: disk I/O error` from conda | Conda installed on NFS home; SQLite + NFS is broken | Re-run `01_install_miniconda.sh` — it auto-detects an old `~/miniconda3` and reinstalls on scratch |
-| `sbatch: Invalid account or account/partition combination specified` | SLURM accounting account name differs from the unix group `SCWF00196` | Run `sacctmgr show user "$USER" -s format=user,defaultaccount,account%30 -p` to find the real account name; set `FALCON_SLURM_ACCOUNT` in `config/falcon_env.sh` to that value, source the file, resubmit |
+| `sbatch: Invalid account or account/partition combination specified` | SLURM accounting account name differs from the unix group `<your_project_group>` | Run `sacctmgr show user "$USER" -s format=user,defaultaccount,account%30 -p` to find the real account name; set `FALCON_SLURM_ACCOUNT` in `config/falcon_env.sh` to that value, source the file, resubmit |
 | `CondaToSNonInteractiveError` for `pkgs/main` or `pkgs/r` | `defaults` channel sneaked into `~/.condarc` or an env yaml | `conda config --remove channels defaults`; verify yamls have only `conda-forge` and `bioconda`; `01_install_miniconda.sh` strips this on every run |
 
 ---
@@ -294,7 +294,7 @@ When asking for help on any step, paste:
 
 1. The exact command you ran.
 2. The full error message (last ~30 lines of stderr).
-3. Output of `squeue -u c.medas36` (if SLURM-related).
+3. Output of `squeue -u <your_username>` (if SLURM-related).
 4. Output of `source config/falcon_env.sh && env | grep -E 'FALCON|PROJECT|REF|CELLRANGER'`.
 
 That makes it ~10x faster to diagnose.

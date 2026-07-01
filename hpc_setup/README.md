@@ -2,7 +2,7 @@
 
 **Project:** ICR Project S34 — 12 AML samples (3 patients × 4 conditions: ±HS5 stroma, ±AraC), submitted 16/03/2026 by S. Rizzo / A. Tonks / J. Khorashad. Sequenced as standard 10x 3' GEX libraries; **no separate Cellecta enrichment library** was prepared, so CloneTracker barcodes must be salvaged from the same R2 reads as the transcriptome.
 
-**Cluster:** Cardiff Falcon (SLURM, Singularity, RHEL-based). User `c.medas36`, project code **SCWF00196** (confirmed via `groups`). Conda lives on Lustre scratch at `/shared/scratch/SCWF00196/c.medas36/software/miniconda3/` (NOT in NFS home — see RUNBOOK Step 4 for why).
+**Cluster:** Cardiff Falcon (SLURM, Singularity, RHEL-based). User `<your_username>`, project code **<your_project_group>** (confirmed via `groups`). Conda lives on Lustre scratch at `/shared/scratch/<your_project_group>/<your_username>/software/miniconda3/` (NOT in NFS home — see RUNBOOK Step 4 for why).
 
 **Important caveat (from your own `CloneTracker_scRNAseq_only.pptx`):** with no targeted PCR enrichment, expect <10% of cells to receive a confident CloneTracker call. This setup is built to extract whatever signal is recoverable; it cannot substitute for a proper enrichment library. The pipeline is also designed so that if/when an enrichment library is run later, the same scripts can ingest it with one parameter change.
 
@@ -19,7 +19,7 @@ The very short version:
 cd ~/Documents/Jamshid/AML_Cellecta/hpc_setup && bash deploy.sh
 
 # Falcon
-ssh c.medas36@falconlogin.cf.ac.uk
+ssh <your_username>@falconlogin.cf.ac.uk
 cd ~/aml_cellecta_setup
 source config/falcon_env.sh
 bash scripts/00_make_dirs.sh
@@ -35,7 +35,7 @@ sbatch slurm/04_build_clonetracker_ref.sbatch
 ## Pre-flight checklist
 
 1. **VPN connected** (GlobalProtect → ras.cf.ac.uk).
-2. **SSH** test: `ssh c.medas36@falconlogin.cf.ac.uk "echo ok && groups"` — must show `SCWF00196`.
+2. **SSH** test: `ssh <your_username>@falconlogin.cf.ac.uk "echo ok && groups"` — must show `<your_project_group>`.
 3. **Confirm fastq delivery location.** Raw fastqs come via Globus from "ICR RDS — S34 (run1930)" into `${PROJECT_ROOT}/raw/`. Example file: `S34_02_S17_L001_R1_001.fastq.gz` (3.19 GB).
 4. **Confirm 10x chemistry.** The samples are listed as "fixed cell samples" — verify with ICR Genomics (Floriana Manodoro) whether they are:
    - **Standard 10x 3' v3.1** — this pipeline works as-is.
@@ -46,7 +46,7 @@ sbatch slurm/04_build_clonetracker_ref.sbatch
 ## What this setup gives you on Falcon
 
 ```
-${PROJECT_ROOT}/                          # /shared/scratch/SCWF00196/c.medas36/
+${PROJECT_ROOT}/                          # /shared/scratch/<your_project_group>/<your_username>/
 ├── raw/                       # incoming fastqs from Globus (you populate)
 ├── refs/
 │   ├── refdata-gex-GRCh38-2024-A/        # 10x pre-built human reference
@@ -106,15 +106,15 @@ Both paths produce a per-cell `(cell_barcode, clone_barcode, n_reads, n_umis)` t
 | `refs/clonetracker/clonetracker_construct.fa` | **Placeholder** — replace with real CloneTracker XP cassette before step 04. |
 | `refs/clonetracker/clonetracker_construct.gtf` | Matching GTF; `sed` updates length when you replace the FASTA. |
 | `config/samples.tsv` | Sample sheet pre-filled from the ICR S34 spreadsheet. Fill `fastq_prefix` once Globus delivery completes. |
-| `config/falcon_env.sh` | Sourced at the top of every script: sets `FALCON_PROJECT=SCWF00196`, paths, conda. |
+| `config/falcon_env.sh` | Sourced at the top of every script: sets `FALCON_PROJECT=<your_project_group>`, paths, conda. |
 
-All sbatch scripts have `#SBATCH --account=SCWF00196` baked in, so you don't need to pass `-A` on the command line.
+All sbatch scripts have `#SBATCH --account=<your_project_group>` baked in, so you don't need to pass `-A` on the command line.
 
 ---
 
 ## Open items before you can run analysis
 
-1. ~~Falcon project code~~ — confirmed **SCWF00196**.
+1. ~~Falcon project code~~ — confirmed **<your_project_group>**.
 2. Drop the real CloneTracker XP construct sequence into `refs/clonetracker/clonetracker_construct.fa` (kit insert; ask Sian Rizzo if missing). The GTF length is auto-updated by the runbook step.
 3. Fill the `fastq_prefix` column in `config/samples.tsv` once you `ls` the Globus drop in `${PROJECT_ROOT}/raw/`.
 4. Confirm 10x chemistry (3' v3.1 vs Flex) with ICR Genomics.

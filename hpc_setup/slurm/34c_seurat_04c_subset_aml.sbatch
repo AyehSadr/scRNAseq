@@ -6,8 +6,8 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=02:00:00
-#SBATCH --output=/shared/scratch/SCWF00196/c.medas36/logs/seu_04c_subset.%J.out
-#SBATCH --error=/shared/scratch/SCWF00196/c.medas36/logs/seu_04c_subset.%J.err
+#SBATCH --output=logs/seu_04c_subset.%J.out
+#SBATCH --error=logs/seu_04c_subset.%J.err
 
 # =============================================================================
 # Part-3 — subset to AML-only compartment.
@@ -20,15 +20,18 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="/shared/home1/c.medas36/aml_cellecta_setup"
+SCRIPT_DIR="${HOME}/scRNAseq"
+if [ ! -d "${SCRIPT_DIR}" ]; then
+    SCRIPT_DIR="${HOME}/aml_cellecta_setup"
+fi
 source "${SCRIPT_DIR}/config/falcon_env.sh"
 conda activate scrna
 
 OUT_DIR="${PROJECT_ROOT}/seurat"
 mkdir -p "${OUT_DIR}/seurat_04c"
 
-RDS_IN="${OUT_DIR}/AML_SRAML10_seurat_general.RDS"
-RDS_OUT="${OUT_DIR}/AML_SRAML10_aml_only.RDS"
+RDS_IN="${OUT_DIR}/AML_${FALCON_PATIENT}_seurat_general.RDS"
+RDS_OUT="${OUT_DIR}/AML_${FALCON_PATIENT}_aml_only.RDS"
 
 echo "=== Running seurat_04c_subset_aml.R ==="
 
